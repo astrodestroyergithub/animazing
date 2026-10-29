@@ -1,0 +1,19 @@
+{
+  "name": "animazing-netlify-neondb",
+  "version": "2.4.0",
+  "description": "Animazing - Ultra-HD Anime & Mature 18+ Enthusiast Streaming, Discovery & Studio Hub powered by Netlify & NeonDB Serverless Postgres",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "netlify dev",
+    "build": "echo 'Static bundle ready for Netlify publish'",
+    "db:schema": "psql $DATABASE_URL -f db/schema.sql",
+    "db:seed": "psql $DATABASE_URL -f db/seed.sql"
+  },
+  "dependencies": {
+    "@neondatabase/serverless": "^0.10.4"
+  },
+  "devDependencies": {
+    "netlify-cli": "^17.36.0"
+  }
+}

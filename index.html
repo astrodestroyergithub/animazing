@@ -1,0 +1,2032 @@
+<!DOCTYPE html>
+<html lang="en" class="dark scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+  <title>Animazing — Ultra-HD Anime &amp; 18+ Enthusiast Streaming Hub | Powered by NeonDB &amp; Netlify</title>
+  <meta name="description" content="Animazing is a responsive anime and mature hentai streaming, discovery, and community hub featuring Ultra-HD visuals, interactive theater playback, and serverless NeonDB PostgreSQL integration." />
+  <meta name="theme-color" content="#0B0C14" />
+  <!-- Root Directory SVG Favicon -->
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="shortcut icon" type="image/svg+xml" href="./favicon.svg" />
+  <link rel="apple-touch-icon" href="favicon.svg" />
+
+  <!-- Google Fonts: Inter, Outfit & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@600;700;800;900&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS v3.4.17 -->
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            display: ['Outfit', 'Inter', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            obsidian: {
+              950: '#07080E',
+              900: '#0B0C14',
+              800: '#121526',
+              700: '#1B2038',
+            },
+            sakura: {
+              400: '#FF5C9E',
+              500: '#FF2A85',
+              600: '#DB146B',
+            },
+            cyber: {
+              400: '#33F3FF',
+              500: '#00F0FF',
+              600: '#00B8C4',
+            }
+          }
+        }
+      }
+    };
+  </script>
+
+  <style>
+    * { box-sizing: border-box; }
+    html, body {
+      max-width: 100%;
+      overflow-x: hidden;
+      background-color: #07080E;
+      color: #F1F5F9;
+    }
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: #0B0C14; }
+    ::-webkit-scrollbar-thumb { background: #262C47; border-radius: 9999px; }
+    ::-webkit-scrollbar-thumb:hover { background: #FF2A85; }
+
+    .glass-panel {
+      background: rgba(18, 21, 38, 0.78);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .glass-nav {
+      background: rgba(7, 8, 14, 0.88);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255, 42, 133, 0.22);
+    }
+    .neon-border-pink {
+      box-shadow: 0 0 24px -4px rgba(255, 42, 133, 0.45);
+    }
+    .neon-border-cyan {
+      box-shadow: 0 0 24px -4px rgba(0, 240, 255, 0.4);
+    }
+    .mature-blur {
+      filter: blur(18px) brightness(0.65);
+      transition: filter 0.35s ease;
+    }
+    .mature-unlocked {
+      filter: blur(0) brightness(1);
+    }
+    .hero-gradient {
+      background: linear-gradient(90deg, rgba(7,8,14,0.96) 0%, rgba(7,8,14,0.82) 48%, rgba(7,8,14,0.28) 100%),
+                  linear-gradient(180deg, rgba(7,8,14,0.1) 0%, rgba(7,8,14,0.98) 100%);
+    }
+    @keyframes pulseGlow {
+      0%, 100% { opacity: 0.75; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.04); }
+    }
+    .animate-glow { animation: pulseGlow 3.2s infinite ease-in-out; }
+  </style>
+</head>
+<body class="font-sans antialiased selection:bg-sakura-500 selection:text-white min-h-screen flex flex-col">
+
+  <!-- TOP NEONDB + NETLIFY TELEMETRY RIBBON -->
+  <div class="w-full bg-obsidian-900 border-b border-white/10 px-3 sm:px-6 py-1.5 text-xs">
+    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2">
+      <div class="flex items-center gap-2 sm:gap-3 flex-wrap">
+        <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 font-mono text-[11px]">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+          NeonDB Serverless PG16: CONNECTED
+        </span>
+        <span class="hidden md:inline-flex items-center gap-1.5 text-slate-400 font-mono text-[11px]">
+          <span>Edge Region:</span>
+          <strong class="text-cyber-400" id="telemetry-region">aws-ap-southeast-1 (Pooler)</strong>
+        </span>
+        <span class="hidden lg:inline-flex items-center gap-1.5 text-slate-400 font-mono text-[11px]">
+          <span>Query Latency:</span>
+          <strong class="text-sakura-400" id="telemetry-latency">11.4 ms</strong>
+        </span>
+      </div>
+      <div class="flex items-center gap-3 ml-auto">
+        <button type="button" id="btn-favicon-inspector" class="text-[11px] font-medium text-cyber-400 hover:text-white transition flex items-center gap-1">
+          <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+          <span>Root Favicon SVG</span>
+        </button>
+        <span class="text-slate-600">|</span>
+        <button type="button" id="btn-quick-sql" class="text-[11px] font-mono text-sakura-400 hover:text-white transition">
+          /.netlify/functions/db-catalog
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- STICKY MAIN NAVIGATION BAR -->
+  <header class="sticky top-0 z-40 glass-nav">
+    <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between gap-2 sm:gap-4">
+      <!-- Brand Logo + Custom Root Favicon SVG -->
+      <div class="flex items-center gap-2.5 sm:gap-3 shrink-0">
+        <button type="button" id="brand-home-btn" class="flex items-center gap-2.5 text-left group focus:outline-none">
+          <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center shadow-lg neon-border-pink transition-transform group-hover:scale-105 overflow-hidden bg-obsidian-900">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" class="w-full h-full">
+              <defs>
+                <linearGradient id="navBgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#0B0C14"/>
+                  <stop offset="50%" stop-color="#15182B"/>
+                  <stop offset="100%" stop-color="#090A10"/>
+                </linearGradient>
+                <linearGradient id="navCrimsonCyan" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#FF2A85"/>
+                  <stop offset="55%" stop-color="#9B51E0"/>
+                  <stop offset="100%" stop-color="#00F0FF"/>
+                </linearGradient>
+                <linearGradient id="navBladeGlow" x1="0%" y1="100%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="#00F0FF"/>
+                  <stop offset="100%" stop-color="#FF2A85"/>
+                </linearGradient>
+              </defs>
+              <rect x="3" y="3" width="58" height="58" rx="15" fill="url(#navBgGrad)" stroke="url(#navCrimsonCyan)" stroke-width="3"/>
+              <circle cx="32" cy="32" r="22" fill="none" stroke="#00F0FF" stroke-width="0.75" stroke-dasharray="4 3" opacity="0.45"/>
+              <path d="M32 11 L15 50 L23.5 50 L27.5 40 L36.5 40 L40.5 50 L49 50 Z" fill="url(#navCrimsonCyan)"/>
+              <polygon points="32,22 28.5,33 35.5,33" fill="#0D0F1C"/>
+              <path d="M11 45 Q32 28 53 17" fill="none" stroke="url(#navBladeGlow)" stroke-width="3.2" stroke-linecap="round"/>
+              <path d="M48 14 L49.5 18.5 L54 20 L49.5 21.5 L48 26 L46.5 21.5 L42 20 L46.5 18.5 Z" fill="#00F0FF"/>
+            </svg>
+          </div>
+          <div>
+            <div class="flex items-center gap-1.5">
+              <span class="font-display font-extrabold text-xl sm:text-2xl tracking-tight bg-gradient-to-r from-white via-sakura-400 to-cyber-400 bg-clip-text text-transparent">
+                ANIMAZING
+              </span>
+              <span class="hidden sm:inline-block text-[10px] font-mono uppercase px-1.5 py-0.5 rounded bg-sakura-500/20 text-sakura-400 border border-sakura-500/40 font-semibold">
+                4K ULTRA
+              </span>
+            </div>
+            <p class="text-[10px] sm:text-xs text-slate-400 hidden xs:block">Anime &amp; 18+ Enthusiast Universe</p>
+          </div>
+        </button>
+      </div>
+
+      <!-- Desktop Navigation Tabs -->
+      <nav class="hidden xl:flex items-center gap-1 bg-obsidian-900/90 p-1 rounded-xl border border-white/10" aria-label="Main Navigation">
+        <button type="button" data-nav="discover" class="nav-tab-btn px-3.5 py-2 rounded-lg text-xs font-semibold transition bg-sakura-500 text-white shadow">
+          Discover Hub
+        </button>
+        <button type="button" data-nav="vault" class="nav-tab-btn px-3.5 py-2 rounded-lg text-xs font-semibold transition text-slate-300 hover:text-white flex items-center gap-1.5">
+          <span>18+ Hentai Vault</span>
+          <span id="nav-vault-badge" class="px-1.5 py-0.2 rounded text-[10px] bg-rose-500/20 text-rose-300 border border-rose-500/40">LOCKED</span>
+        </button>
+        <button type="button" data-nav="gallery" class="nav-tab-btn px-3.5 py-2 rounded-lg text-xs font-semibold transition text-slate-300 hover:text-white">
+          Real HD &amp; Figures
+        </button>
+        <button type="button" data-nav="schedule" class="nav-tab-btn px-3.5 py-2 rounded-lg text-xs font-semibold transition text-slate-300 hover:text-white">
+          Simulcast &amp; AI Lab
+        </button>
+        <button type="button" data-nav="neondb" class="nav-tab-btn px-3.5 py-2 rounded-lg text-xs font-semibold transition text-slate-300 hover:text-white flex items-center gap-1">
+          <span class="w-2 h-2 rounded-full bg-cyber-400"></span>
+          <span>NeonDB Studio</span>
+        </button>
+      </nav>
+
+      <!-- Search, 18+ Gate Switch, Watchlist & Mobile Menu Trigger -->
+      <div class="flex items-center gap-2 sm:gap-3">
+        <!-- Global Search Input -->
+        <div class="relative hidden md:block w-44 lg:w-56">
+          <input
+            type="search"
+            id="global-search-input"
+            placeholder="Search anime, studio, tag..."
+            class="w-full bg-obsidian-900/90 border border-white/15 focus:border-cyber-400 rounded-xl pl-8 pr-3 py-1.5 text-xs text-white placeholder-slate-400 focus:outline-none transition"
+          />
+          <svg class="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
+          </svg>
+        </div>
+
+        <!-- 18+ Mature Vault Quick Toggle -->
+        <button
+          type="button"
+          id="btn-toggle-mature"
+          class="px-2.5 sm:px-3 py-1.5 rounded-xl text-xs font-semibold border transition flex items-center gap-1.5 bg-obsidian-800 border-rose-500/40 text-rose-300 hover:bg-rose-500/20"
+          title="Toggle 18+ Uncensored Hentai &amp; Ecchi Mode"
+        >
+          <span id="mature-indicator-dot" class="w-2 h-2 rounded-full bg-rose-500"></span>
+          <span id="mature-toggle-label">18+ Safe</span>
+        </button>
+
+        <!-- Watchlist Drawer Button -->
+        <button
+          type="button"
+          id="btn-open-watchlist"
+          class="relative px-2.5 sm:px-3 py-1.5 rounded-xl text-xs font-semibold bg-obsidian-800 hover:bg-obsidian-700 border border-white/10 text-slate-200 flex items-center gap-1.5 transition"
+        >
+          <svg class="w-4 h-4 text-sakura-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+          </svg>
+          <span class="hidden sm:inline">Watchlist</span>
+          <span id="watchlist-count-badge" class="px-1.5 py-0.2 rounded-full text-[10px] font-bold bg-sakura-500 text-white">3</span>
+        </button>
+
+        <!-- Mobile Menu Toggle -->
+        <button
+          type="button"
+          id="btn-mobile-menu"
+          class="xl:hidden p-2 rounded-xl bg-obsidian-800 border border-white/10 text-slate-200 hover:text-white focus:outline-none"
+          aria-label="Open Navigation Menu"
+        >
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Responsive Drawer -->
+    <div id="mobile-nav-drawer" class="hidden xl:hidden border-t border-white/10 bg-obsidian-900/95 px-4 py-3 space-y-3">
+      <div class="relative md:hidden">
+        <input
+          type="search"
+          id="mobile-search-input"
+          placeholder="Search series, OVA, studio, or 18+ tag..."
+          class="w-full bg-obsidian-950 border border-white/15 rounded-xl pl-9 pr-3 py-2 text-xs text-white placeholder-slate-400 focus:outline-none focus:border-cyber-400"
+        />
+        <svg class="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
+        </svg>
+      </div>
+      <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
+        <button type="button" data-nav="discover" class="mobile-nav-btn px-3 py-2 rounded-lg text-xs font-semibold text-left bg-sakura-500/20 text-sakura-300 border border-sakura-500/40">
+          Discover Hub
+        </button>
+        <button type="button" data-nav="vault" class="mobile-nav-btn px-3 py-2 rounded-lg text-xs font-semibold text-left bg-obsidian-800 text-slate-200 border border-white/10">
+          18+ Hentai Vault
+        </button>
+        <button type="button" data-nav="gallery" class="mobile-nav-btn px-3 py-2 rounded-lg text-xs font-semibold text-left bg-obsidian-800 text-slate-200 border border-white/10">
+          Real HD &amp; Figures
+        </button>
+        <button type="button" data-nav="schedule" class="mobile-nav-btn px-3 py-2 rounded-lg text-xs font-semibold text-left bg-obsidian-800 text-slate-200 border border-white/10">
+          Simulcast &amp; AI Lab
+        </button>
+        <button type="button" data-nav="neondb" class="mobile-nav-btn px-3 py-2 rounded-lg text-xs font-semibold text-left bg-obsidian-800 text-cyber-400 border border-cyber-500/30 col-span-2 sm:col-span-1">
+          NeonDB SQL Studio
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT CONTAINER -->
+  <main class="flex-1">
+
+    <!-- ================================================================== -->
+    <!-- VIEW 1: DISCOVER HUB (HERO + CATALOG + ANALYTICS + REVIEWS)        -->
+    <!-- ================================================================== -->
+    <section id="view-discover" class="space-y-10 sm:space-y-14 pb-16">
+
+      <!-- ULTRA-HD HERO SPOTLIGHT CAROUSEL -->
+      <div class="relative w-full min-h-[460px] sm:min-h-[540px] lg:min-h-[600px] flex items-end overflow-hidden border-b border-white/10">
+        <img
+          id="hero-backdrop-img"
+          src="assets/images/hero_cyberpunk.jpg"
+          alt="Cyber Blade Zero: Rain of Neo-Tokyo Ultra-HD Banner"
+          class="absolute inset-0 w-full h-full object-cover object-center scale-105 transition-all duration-700"
+        />
+        <div class="absolute inset-0 hero-gradient"></div>
+
+        <div class="relative z-10 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-16 grid grid-cols-1 lg:grid-cols-12 gap-6 items-end">
+          <div class="lg:col-span-8 space-y-4">
+            <div class="flex flex-wrap items-center gap-2">
+              <span id="hero-badge-season" class="px-2.5 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-sakura-500 text-white shadow">
+                #1 Fall 2026 Simulcast
+              </span>
+              <span id="hero-badge-res" class="px-2.5 py-1 rounded-full text-[11px] font-mono font-semibold bg-cyber-500/20 text-cyber-400 border border-cyber-500/40">
+                4K 60FPS HDR10+
+              </span>
+              <span id="hero-badge-rating" class="px-2.5 py-1 rounded-full text-[11px] font-mono bg-amber-500/20 text-amber-300 border border-amber-500/40">
+                ★ 9.82 NeonScore
+              </span>
+              <span id="hero-badge-studio" class="px-2.5 py-1 rounded-full text-[11px] text-slate-300 bg-white/10">
+                Studio Nexus Prime
+              </span>
+            </div>
+
+            <h1 id="hero-title-en" class="font-display font-black text-2xl sm:text-4xl lg:text-5xl text-white leading-tight tracking-tight">
+              Cyber Blade Zero: Rain of Neo-Tokyo
+            </h1>
+            <p id="hero-title-jp" class="text-xs sm:text-sm font-mono text-cyber-400">
+              サイバーブレード・ゼロ 新東京の雨 • Episodes 1–24 Available (Sub &amp; Dub)
+            </p>
+            <p id="hero-synopsis" class="text-xs sm:text-sm lg:text-base text-slate-300 max-w-2xl leading-relaxed">
+              In a rain-drenched 2099 Neo-Tokyo ruled by synthetic conglomerates, rogue cyber-samurai Renji Kurosawa wields a resonant plasma katana to sever the neural grid enslaving humanity.
+            </p>
+
+            <div class="pt-2 flex flex-wrap items-center gap-3">
+              <button
+                type="button"
+                id="btn-hero-watch"
+                data-media-id="1"
+                class="px-5 sm:px-6 py-3 rounded-xl font-display font-bold text-xs sm:text-sm bg-gradient-to-r from-sakura-500 to-fuchsia-600 hover:from-sakura-400 hover:to-fuchsia-500 text-white shadow-lg neon-border-pink flex items-center gap-2 transition transform hover:-translate-y-0.5"
+              >
+                <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                <span>Stream Episode 1 in 4K</span>
+              </button>
+
+              <button
+                type="button"
+                id="btn-hero-watchlist"
+                data-media-id="1"
+                class="px-4 sm:px-5 py-3 rounded-xl font-semibold text-xs sm:text-sm glass-panel hover:bg-white/15 text-white flex items-center gap-2 transition"
+              >
+                <svg class="w-4 h-4 text-cyber-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path d="M12 5v14M5 12h14"/>
+                </svg>
+                <span>Sync to NeonDB Watchlist</span>
+              </button>
+
+              <button
+                type="button"
+                id="btn-hero-explore-vault"
+                class="px-4 py-3 rounded-xl font-semibold text-xs sm:text-sm bg-rose-950/70 hover:bg-rose-900/80 text-rose-200 border border-rose-500/40 flex items-center gap-1.5 transition"
+              >
+                <span>Explore 18+ Uncut Vault</span>
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Hero Slide Selector Thumbnails -->
+          <div class="lg:col-span-4 flex lg:flex-col gap-2.5 overflow-x-auto pb-1 lg:pb-0">
+            <button type="button" data-slide="0" class="hero-slide-btn flex items-center gap-3 p-2 rounded-xl glass-panel border-sakura-500 text-left shrink-0 w-60 lg:w-full transition">
+              <img src="assets/images/hero_cyberpunk.jpg" alt="Cyber Blade Zero" class="w-14 h-10 rounded-lg object-cover shrink-0" />
+              <div class="min-w-0">
+                <p class="text-xs font-bold text-white truncate">Cyber Blade Zero</p>
+                <p class="text-[10px] text-cyber-400 truncate">Cyberpunk • ★ 9.82</p>
+              </div>
+            </button>
+            <button type="button" data-slide="1" class="hero-slide-btn flex items-center gap-3 p-2 rounded-xl glass-panel border-transparent hover:border-white/20 text-left shrink-0 w-60 lg:w-full transition">
+              <img src="assets/images/poster_valkyrie.jpg" alt="Eclipse of the Valkyrie" class="w-14 h-10 rounded-lg object-cover shrink-0" />
+              <div class="min-w-0">
+                <p class="text-xs font-bold text-white truncate">Eclipse of the Valkyrie</p>
+                <p class="text-[10px] text-amber-400 truncate">Dark Fantasy • ★ 9.68</p>
+              </div>
+            </button>
+            <button type="button" data-slide="2" class="hero-slide-btn flex items-center gap-3 p-2 rounded-xl glass-panel border-transparent hover:border-white/20 text-left shrink-0 w-60 lg:w-full transition">
+              <img src="assets/images/studio_akihabara.jpg" alt="Akihabara Live Exhibition 4K" class="w-14 h-10 rounded-lg object-cover shrink-0" />
+              <div class="min-w-0">
+                <p class="text-xs font-bold text-white truncate">Akihabara Studio Live 4K</p>
+                <p class="text-[10px] text-emerald-400 truncate">Real HD Photography • ★ 9.65</p>
+              </div>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- PLATFORM QUICK STATS & FILTER BAR -->
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
+          <div class="glass-panel rounded-2xl p-4 border-l-4 border-l-sakura-500">
+            <p class="text-[11px] font-mono uppercase text-slate-400">NeonDB Indexed Titles</p>
+            <p class="font-display font-extrabold text-xl sm:text-2xl text-white mt-0.5">14,820+ Series</p>
+            <p class="text-[11px] text-sakura-400 mt-1">Simulcast, OVAs &amp; Uncut BD</p>
+          </div>
+          <div class="glass-panel rounded-2xl p-4 border-l-4 border-l-cyber-500">
+            <p class="text-[11px] font-mono uppercase text-slate-400">Visual Fidelity</p>
+            <p class="font-display font-extrabold text-xl sm:text-2xl text-white mt-0.5">4K HDR &amp; Real HD</p>
+            <p class="text-[11px] text-cyber-400 mt-1">Anime Art + Studio Photography</p>
+          </div>
+          <div class="glass-panel rounded-2xl p-4 border-l-4 border-l-rose-500">
+            <p class="text-[11px] font-mono uppercase text-slate-400">18+ Enthusiast Vault</p>
+            <p class="font-display font-extrabold text-xl sm:text-2xl text-white mt-0.5" id="stat-vault-status">PIN-Gated Safe</p>
+            <p class="text-[11px] text-rose-400 mt-1">Uncensored Hentai &amp; Ecchi OVAs</p>
+          </div>
+          <div class="glass-panel rounded-2xl p-4 border-l-4 border-l-emerald-500">
+            <p class="text-[11px] font-mono uppercase text-slate-400">Netlify Edge + Neon</p>
+            <p class="font-display font-extrabold text-xl sm:text-2xl text-white mt-0.5">99.99% Uptime</p>
+            <p class="text-[11px] text-emerald-400 mt-1">Zero-Cold-Start HTTP Driver</p>
+          </div>
+        </div>
+
+        <!-- Category Filter Pills + Sort Controls -->
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pt-2">
+          <div>
+            <h2 class="font-display font-bold text-xl sm:text-2xl text-white flex items-center gap-2">
+              <span>Master Anime &amp; 18+ Enthusiast Catalog</span>
+              <span id="catalog-count-pill" class="text-xs font-mono px-2.5 py-0.5 rounded-full bg-white/10 text-cyber-400">12 Titles</span>
+            </h2>
+            <p class="text-xs text-slate-400">Live-filtered from NeonDB <code class="text-sakura-400">media_catalog</code> table with instant watchlist sync</p>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-2">
+            <select id="sort-select" aria-label="Sort Catalog" class="bg-obsidian-800 border border-white/15 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-cyber-400">
+              <option value="rating">Sort: Highest NeonScore</option>
+              <option value="views">Sort: Most Streamed</option>
+              <option value="year">Sort: Newest Release</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Category Buttons -->
+        <div class="flex items-center gap-2 overflow-x-auto pb-2" id="category-pills-container">
+          <button type="button" data-cat="All" class="cat-pill-btn shrink-0 px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-sakura-500 text-white shadow transition">
+            All Categories
+          </button>
+          <button type="button" data-cat="Simulcast" class="cat-pill-btn shrink-0 px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-obsidian-800 text-slate-300 hover:text-white border border-white/10 transition">
+            Simulcast Anime
+          </button>
+          <button type="button" data-cat="Dark Fantasy" class="cat-pill-btn shrink-0 px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-obsidian-800 text-slate-300 hover:text-white border border-white/10 transition">
+            Dark Fantasy
+          </button>
+          <button type="button" data-cat="Mecha Sci-Fi" class="cat-pill-btn shrink-0 px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-obsidian-800 text-slate-300 hover:text-white border border-white/10 transition">
+            Mecha &amp; Sci-Fi
+          </button>
+          <button type="button" data-cat="Romance" class="cat-pill-btn shrink-0 px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-obsidian-800 text-slate-300 hover:text-white border border-white/10 transition">
+            Supernatural Romance
+          </button>
+          <button type="button" data-cat="Real HD Showcase" class="cat-pill-btn shrink-0 px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-obsidian-800 text-emerald-300 hover:text-white border border-emerald-500/30 transition">
+            Real HD Photography
+          </button>
+          <button type="button" data-cat="Uncut 18+ Hentai" class="cat-pill-btn shrink-0 px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-rose-950/80 text-rose-300 hover:bg-rose-600 hover:text-white border border-rose-500/40 transition flex items-center gap-1">
+            <span>🔥 Uncut 18+ Hentai &amp; OVA</span>
+          </button>
+        </div>
+
+        <!-- DYNAMIC CATALOG GRID -->
+        <div id="catalog-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+          <!-- Populated dynamically via JS from NeonDB catalog state -->
+        </div>
+      </div>
+
+      <!-- COMMUNITY REVIEWS & NEONDB ANALYTICS ROW -->
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-6 pt-4">
+        <!-- Live Community Reviews connected to community_reviews schema -->
+        <div class="lg:col-span-7 glass-panel rounded-2xl p-5 sm:p-6 space-y-4">
+          <div class="flex flex-wrap items-center justify-between gap-2 border-b border-white/10 pb-3">
+            <div>
+              <h3 class="font-display font-bold text-lg text-white">Verified Otaku &amp; Collector Reviews</h3>
+              <p class="text-xs text-slate-400">Stored in NeonDB <code class="text-cyber-400">community_reviews</code> table</p>
+            </div>
+            <button type="button" id="btn-open-review-modal" class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-sakura-500 hover:bg-sakura-400 text-white transition">
+              + Post Review
+            </button>
+          </div>
+          <div id="reviews-list" class="space-y-3 max-h-96 overflow-y-auto pr-1">
+            <!-- Populated by JS -->
+          </div>
+        </div>
+
+        <!-- Genre Popularity & Bitrate Telemetry Chart -->
+        <div class="lg:col-span-5 glass-panel rounded-2xl p-5 sm:p-6 flex flex-col justify-between space-y-4">
+          <div>
+            <span class="text-[11px] font-mono uppercase text-cyber-400">Live NeonDB Aggregation</span>
+            <h3 class="font-display font-bold text-lg text-white mt-0.5">Enthusiast Stream Distribution</h3>
+            <p class="text-xs text-slate-400">Real-time breakdown across Anime Simulcasts, Uncut 18+ Hentai OVAs &amp; Real HD</p>
+          </div>
+
+          <div class="space-y-3 my-auto py-2">
+            <div>
+              <div class="flex justify-between text-xs mb-1">
+                <span class="font-medium text-slate-200">Cyberpunk &amp; Seinen Simulcasts (4K HDR)</span>
+                <span class="font-mono text-cyber-400">34%</span>
+              </div>
+              <div class="w-full h-2.5 bg-obsidian-950 rounded-full overflow-hidden">
+                <div class="h-full bg-gradient-to-r from-cyber-500 to-blue-500 rounded-full" style="width: 34%"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between text-xs mb-1">
+                <span class="font-medium text-rose-300">18+ Uncensored Hentai &amp; Velvet OVAs</span>
+                <span class="font-mono text-rose-400">29%</span>
+              </div>
+              <div class="w-full h-2.5 bg-obsidian-950 rounded-full overflow-hidden">
+                <div class="h-full bg-gradient-to-r from-sakura-500 to-rose-500 rounded-full" style="width: 29%"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between text-xs mb-1">
+                <span class="font-medium text-slate-200">Dark Fantasy &amp; Mythology Epics</span>
+                <span class="font-mono text-amber-400">21%</span>
+              </div>
+              <div class="w-full h-2.5 bg-obsidian-950 rounded-full overflow-hidden">
+                <div class="h-full bg-gradient-to-r from-amber-500 to-orange-500 rounded-full" style="width: 21%"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between text-xs mb-1">
+                <span class="font-medium text-emerald-300">Real HD Akihabara Studio &amp; Collector Vault</span>
+                <span class="font-mono text-emerald-400">16%</span>
+              </div>
+              <div class="w-full h-2.5 bg-obsidian-950 rounded-full overflow-hidden">
+                <div class="h-full bg-gradient-to-r from-emerald-400 to-teal-500 rounded-full" style="width: 16%"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-3 rounded-xl bg-obsidian-950/90 border border-white/10 flex items-center justify-between text-xs">
+            <span class="text-slate-400">Serverless Function Endpoint:</span>
+            <code class="text-sakura-400 font-mono">GET /api/db-catalog?mature=true</code>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================== -->
+    <!-- VIEW 2: 18+ UNCUT HENTAI & ECCHI VAULT                             -->
+    <!-- ================================================================== -->
+    <section id="view-vault" class="hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-8">
+      <div class="glass-panel rounded-3xl p-6 sm:p-8 border border-rose-500/40 relative overflow-hidden">
+        <div class="max-w-3xl space-y-3 relative z-10">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-rose-500/20 border border-rose-500/40 text-rose-300 text-xs font-mono">
+            <span>R-18 ADULTS ONLY SANCTUARY</span>
+            <span>•</span>
+            <span id="vault-banner-status">AGE VERIFICATION REQUIRED</span>
+          </div>
+          <h2 class="font-display font-black text-2xl sm:text-4xl text-white">
+            Animazing Velvet Vault — Uncensored 18+ Hentai &amp; Ecchi OVAs
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+            Curated specifically for mature anime and hentai connoisseurs. Stream lossless 4K 60fps BD-Master OVAs, uncensored director's cuts, dual-audio tracks, and interactive visual novel adaptations backed by privacy-first encrypted NeonDB sessions.
+          </p>
+          <div class="pt-2 flex flex-wrap gap-3">
+            <button type="button" id="btn-vault-unlock-trigger" class="px-5 py-2.5 rounded-xl font-bold text-xs sm:text-sm bg-gradient-to-r from-rose-500 to-sakura-600 hover:from-rose-400 hover:to-sakura-500 text-white shadow-lg transition">
+              Verify 18+ Age &amp; Unlock Unblurred Vault
+            </button>
+            <button type="button" id="btn-vault-privacy-shield" class="px-4 py-2.5 rounded-xl font-semibold text-xs sm:text-sm bg-obsidian-900 border border-white/15 text-slate-200 hover:bg-white/10 transition">
+              Panic Boss-Key ( Instant SFW Mode )
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tag Filter Bar for 18+ Vault -->
+      <div class="flex flex-wrap items-center gap-2">
+        <span class="text-xs font-mono text-slate-400 mr-1">Filter Fetish / Aesthetic Tag:</span>
+        <button type="button" data-vtag="ALL" class="vault-tag-btn px-3 py-1 rounded-lg text-xs font-semibold bg-rose-600 text-white">All 18+ Titles</button>
+        <button type="button" data-vtag="Uncensored" class="vault-tag-btn px-3 py-1 rounded-lg text-xs font-semibold bg-obsidian-800 text-slate-300 hover:text-white border border-white/10">Uncensored BD</button>
+        <button type="button" data-vtag="Noir Romance" class="vault-tag-btn px-3 py-1 rounded-lg text-xs font-semibold bg-obsidian-800 text-slate-300 hover:text-white border border-white/10">Noir Penthouse</button>
+        <button type="button" data-vtag="Succubus" class="vault-tag-btn px-3 py-1 rounded-lg text-xs font-semibold bg-obsidian-800 text-slate-300 hover:text-white border border-white/10">Dark Fantasy / Succubus</button>
+        <button type="button" data-vtag="Cyberpunk" class="vault-tag-btn px-3 py-1 rounded-lg text-xs font-semibold bg-obsidian-800 text-slate-300 hover:text-white border border-white/10">Cyber-Pleasure 2099</button>
+      </div>
+
+      <div id="vault-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Populated dynamically via JS -->
+      </div>
+    </section>
+
+    <!-- ================================================================== -->
+    <!-- VIEW 3: REAL HD PHOTOGRAPHY, AKIHABARA STUDIO & COLLECTOR FIGURES  -->
+    <!-- ================================================================== -->
+    <section id="view-gallery" class="hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-8">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <div>
+          <span class="text-xs font-mono uppercase text-emerald-400">Beyond 2D Animation • True Optical HD</span>
+          <h2 class="font-display font-black text-2xl sm:text-4xl text-white mt-1">
+            Real HD Studio Exhibitions, 1/4 Collector Statues &amp; CGI Hybrid Art
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-400 mt-1 max-w-2xl">
+            Inspect ultra-crisp real-world photography from Tokyo's premier exhibition halls alongside hyper-realistic 3D CGI renders and resin collector figures.
+          </p>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="px-3 py-1.5 rounded-xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 text-xs font-mono">
+            RAW 4K Optical Assets Loaded
+          </span>
+        </div>
+      </div>
+
+      <!-- Featured Real HD Photography Showcase -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+        <div class="lg:col-span-8 glass-panel rounded-3xl overflow-hidden flex flex-col">
+          <div class="relative aspect-video w-full overflow-hidden bg-obsidian-950">
+            <img
+              id="gallery-main-stage-img"
+              src="assets/images/studio_akihabara.jpg"
+              alt="Akihabara Live Exhibition Hall Real HD Photography"
+              class="w-full h-full object-cover"
+            />
+            <div class="absolute top-3 left-3 flex flex-wrap gap-2">
+              <span class="px-2.5 py-1 rounded-lg bg-black/75 backdrop-blur text-emerald-400 font-mono text-xs border border-emerald-500/40">
+                REAL HD PHOTOGRAPHY • 3840×2160
+              </span>
+              <span id="gallery-stage-tag" class="px-2.5 py-1 rounded-lg bg-black/75 backdrop-blur text-white font-semibold text-xs">
+                Akihabara Collector Expo Stage
+              </span>
+            </div>
+          </div>
+          <div class="p-5 sm:p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div>
+              <h3 id="gallery-stage-title" class="font-display font-bold text-lg sm:text-xl text-white">
+                Akihabara Official Studio &amp; Collector Figure Showcase 2026
+              </h3>
+              <p id="gallery-stage-desc" class="text-xs sm:text-sm text-slate-300 mt-1">
+                Captured on full-frame mirrorless sensors in Tokyo: illuminated glass display cases housing limited-edition 1/4 scale resin statues, neon LED arches, and holographic character projections.
+              </p>
+            </div>
+            <button
+              type="button"
+              id="btn-gallery-stream-doc"
+              data-media-id="8"
+              class="shrink-0 px-4 py-2.5 rounded-xl font-semibold text-xs bg-emerald-500 hover:bg-emerald-400 text-obsidian-950 transition"
+            >
+              Watch 4K Expo Documentary
+            </button>
+          </div>
+        </div>
+
+        <!-- Interactive HD Switcher Cards -->
+        <div class="lg:col-span-4 flex flex-col gap-3 justify-between">
+          <div class="glass-panel rounded-2xl p-4 space-y-2 border border-emerald-500/30">
+            <p class="text-xs font-mono uppercase text-emerald-400">Select Ultra-HD Visual Feed</p>
+            <p class="text-xs text-slate-400">Click any plate below to inspect full-resolution real photography and photorealistic CGI hybrid plates:</p>
+          </div>
+
+          <button type="button" data-gallery-idx="0" class="gallery-thumb-btn glass-panel p-3 rounded-2xl flex items-center gap-3 text-left border-emerald-500/50 transition">
+            <img src="assets/images/studio_akihabara.jpg" alt="Akihabara Exhibition" class="w-20 h-14 rounded-xl object-cover shrink-0" />
+            <div class="min-w-0">
+              <span class="text-[10px] font-mono text-emerald-400 uppercase">Real-World Photo</span>
+              <p class="text-xs font-bold text-white truncate">Akihabara Glass Figure Vault</p>
+              <p class="text-[11px] text-slate-400 truncate">Sony A7R V • 24mm f/1.4 GM</p>
+            </div>
+          </button>
+
+          <button type="button" data-gallery-idx="1" class="gallery-thumb-btn glass-panel p-3 rounded-2xl flex items-center gap-3 text-left hover:border-white/25 transition">
+            <img src="assets/images/poster_mecha.jpg" alt="Orbital Mecha Hangar" class="w-20 h-14 rounded-xl object-cover shrink-0" />
+            <div class="min-w-0">
+              <span class="text-[10px] font-mono text-cyber-400 uppercase">Photorealistic 3D CGI</span>
+              <p class="text-xs font-bold text-white truncate">RX-Aegis Hangar Raytraced Plate</p>
+              <p class="text-[11px] text-slate-400 truncate">Unreal Engine 5.5 + Octane Render</p>
+            </div>
+          </button>
+
+          <button type="button" data-gallery-idx="2" class="gallery-thumb-btn glass-panel p-3 rounded-2xl flex items-center gap-3 text-left hover:border-white/25 transition">
+            <img src="assets/images/poster_valkyrie.jpg" alt="Crimson Eclipse Valkyrie" class="w-20 h-14 rounded-xl object-cover shrink-0" />
+            <div class="min-w-0">
+              <span class="text-[10px] font-mono text-amber-400 uppercase">1/4 Scale Statue Sculpt</span>
+              <p class="text-xs font-bold text-white truncate">Seraphina Sovereign Polystone</p>
+              <p class="text-[11px] text-slate-400 truncate">Metallic Armor &amp; LED Wing Cast</p>
+            </div>
+          </button>
+
+          <button type="button" data-gallery-idx="3" class="gallery-thumb-btn glass-panel p-3 rounded-2xl flex items-center gap-3 text-left hover:border-white/25 transition">
+            <img src="assets/images/hero_cyberpunk.jpg" alt="Neo-Tokyo Rain" class="w-20 h-14 rounded-xl object-cover shrink-0" />
+            <div class="min-w-0">
+              <span class="text-[10px] font-mono text-sakura-400 uppercase">8K Master Keyframe</span>
+              <p class="text-xs font-bold text-white truncate">Neo-Tokyo Midnight Rain</p>
+              <p class="text-[11px] text-slate-400 truncate">Volumetric Neon &amp; Katana Glow</p>
+            </div>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================== -->
+    <!-- VIEW 4: SIMULCAST SCHEDULE & AI WAIFU / HUSBANDO COMPANION LAB     -->
+    <!-- ================================================================== -->
+    <section id="view-schedule" class="hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-10">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        <!-- Weekly Simulcast Timetable -->
+        <div class="lg:col-span-7 space-y-4">
+          <div>
+            <span class="text-xs font-mono uppercase text-cyber-400">Tokyo Broadcast Sync (JST / IST)</span>
+            <h2 class="font-display font-bold text-2xl text-white">Weekly Simulcast &amp; Uncut OVA Drop Calendar</h2>
+          </div>
+
+          <div class="flex gap-2 overflow-x-auto pb-1">
+            <button type="button" data-day="Fri" class="day-tab-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-sakura-500 text-white">Friday (Peak)</button>
+            <button type="button" data-day="Sat" class="day-tab-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-obsidian-800 text-slate-300 border border-white/10">Saturday</button>
+            <button type="button" data-day="Sun" class="day-tab-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-obsidian-800 text-slate-300 border border-white/10">Sunday</button>
+            <button type="button" data-day="Midnight" class="day-tab-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-rose-950 text-rose-300 border border-rose-500/40">18+ Midnight Drops</button>
+          </div>
+
+          <div id="schedule-list" class="space-y-3">
+            <!-- Populated by JS -->
+          </div>
+        </div>
+
+        <!-- Interactive Waifu / Husbando Affinity Matchmaker -->
+        <div class="lg:col-span-5 glass-panel rounded-3xl p-6 border border-sakura-500/30 space-y-5">
+          <div>
+            <span class="text-xs font-mono uppercase text-sakura-400">Neural Character Matcher</span>
+            <h3 class="font-display font-bold text-xl text-white mt-0.5">Anime &amp; 18+ Companion Affinity Finder</h3>
+            <p class="text-xs text-slate-400">Configure your aesthetic preferences to match with an iconic protagonist or Velvet Vault companion:</p>
+          </div>
+
+          <div class="space-y-3">
+            <div>
+              <label class="block text-xs font-semibold text-slate-300 mb-1" for="affinity-world">Preferred World Aesthetic</label>
+              <select id="affinity-world" class="w-full bg-obsidian-900 border border-white/15 rounded-xl px-3 py-2 text-xs text-white">
+                <option value="cyber">Rainy Neon Cyberpunk 2099</option>
+                <option value="fantasy">Crimson Eclipse Gothic Cathedral</option>
+                <option value="velvet">VIP Penthouse 18+ Velvet Lounge</option>
+                <option value="shrine">Starlit Cherry Blossom Spirit Shrine</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-300 mb-1" for="affinity-personality">Archetype &amp; Energy</label>
+              <select id="affinity-personality" class="w-full bg-obsidian-900 border border-white/15 rounded-xl px-3 py-2 text-xs text-white">
+                <option value="kuudere">Stoic Cyber-Samurai / Kuudere Strategist</option>
+                <option value="valkyrie">Fierce Armored Valkyrie Commander</option>
+                <option value="seductive">Enigmatic Femme Fatale (18+ Vault)</option>
+                <option value="mystic">Devoted Celestial Shrine Mage</option>
+              </select>
+            </div>
+            <button type="button" id="btn-run-affinity" class="w-full py-2.5 rounded-xl font-bold text-xs bg-gradient-to-r from-sakura-500 to-cyber-600 text-white shadow-lg hover:opacity-95 transition">
+              Calculate Soul-Sync Affinity
+            </button>
+          </div>
+
+          <div id="affinity-result-card" class="p-4 rounded-2xl bg-obsidian-950/90 border border-white/10 flex items-center gap-4">
+            <img id="affinity-img" src="assets/images/poster_velvet.jpg" alt="Matched Companion" class="w-16 h-20 rounded-xl object-cover shrink-0 border border-sakura-500/40" />
+            <div class="min-w-0 space-y-1">
+              <div class="flex items-center gap-2">
+                <span id="affinity-score" class="text-[11px] font-mono font-bold text-cyber-400">98.4% SYNC</span>
+                <span id="affinity-tag" class="text-[10px] px-2 py-0.2 rounded bg-sakura-500/20 text-sakura-300">Velvet Noir</span>
+              </div>
+              <p id="affinity-name" class="text-sm font-bold text-white truncate">Evelyn Nocturne (Penthouse 88)</p>
+              <p id="affinity-quote" class="text-xs text-slate-400 italic">"Every encrypted desire in Neo-Shibuya eventually passes through my crystal."</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================== -->
+    <!-- VIEW 5: NEONDB SERVERLESS POSTGRES + NETLIFY ARCHITECTURE STUDIO   -->
+    <!-- ================================================================== -->
+    <section id="view-neondb" class="hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-8">
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 glass-panel p-6 rounded-3xl border border-cyber-500/30">
+        <div class="space-y-1">
+          <div class="flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
+            <span class="text-xs font-mono uppercase text-cyber-400">Serverless PostgreSQL 16 + Netlify Functions</span>
+          </div>
+          <h2 class="font-display font-black text-2xl sm:text-3xl text-white">
+            NeonDB Integration Console &amp; Live Query Playground
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-300 max-w-3xl">
+            Inspect and test the live PostgreSQL tables (<code class="text-sakura-400">media_catalog</code>, <code class="text-sakura-400">episodes</code>, <code class="text-sakura-400">user_watchlist</code>, <code class="text-sakura-400">community_reviews</code>), test connection strings, or run preset SQL queries against the in-memory replica synced with <code class="text-cyber-400">@neondatabase/serverless</code>.
+          </p>
+        </div>
+        <div class="flex flex-wrap gap-2 shrink-0">
+          <button type="button" id="btn-ping-neondb" class="px-4 py-2.5 rounded-xl text-xs font-mono font-bold bg-cyber-500 text-obsidian-950 hover:bg-cyber-400 transition">
+            Ping Neon Pooler
+          </button>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <!-- Interactive SQL Runner -->
+        <div class="lg:col-span-7 glass-panel rounded-2xl p-5 space-y-4">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <span class="text-xs font-mono font-semibold text-slate-300">Interactive SQL Query Runner</span>
+            <div class="flex flex-wrap gap-1.5">
+              <button type="button" data-sql-preset="catalog" class="sql-preset-btn px-2.5 py-1 rounded text-[11px] font-mono bg-obsidian-800 hover:bg-sakura-500/20 text-sakura-300 border border-white/10">
+                SELECT Top Anime
+              </button>
+              <button type="button" data-sql-preset="vault" class="sql-preset-btn px-2.5 py-1 rounded text-[11px] font-mono bg-obsidian-800 hover:bg-rose-500/20 text-rose-300 border border-white/10">
+                SELECT 18+ Vault
+              </button>
+              <button type="button" data-sql-preset="watchlist" class="sql-preset-btn px-2.5 py-1 rounded text-[11px] font-mono bg-obsidian-800 hover:bg-cyber-500/20 text-cyber-300 border border-white/10">
+                SELECT Watchlist
+              </button>
+            </div>
+          </div>
+
+          <textarea
+            id="sql-editor-textarea"
+            rows="5"
+            aria-label="SQL Query Editor"
+            class="w-full bg-obsidian-950 border border-white/15 rounded-xl p-3 font-mono text-xs text-cyber-400 focus:outline-none focus:border-cyber-400"
+          >SELECT id, title_en, category, age_rating, resolution, rating, views_count
+FROM media_catalog
+WHERE rating >= 9.50
+ORDER BY rating DESC;</textarea>
+
+          <div class="flex items-center justify-between">
+            <span id="sql-exec-status" class="text-[11px] font-mono text-emerald-400">Ready • Neon HTTP Driver v0.10.4</span>
+            <button type="button" id="btn-execute-sql" class="px-4 py-2 rounded-xl text-xs font-bold bg-sakura-500 hover:bg-sakura-400 text-white transition">
+              Execute SQL Query
+            </button>
+          </div>
+
+          <div class="bg-obsidian-950 border border-white/10 rounded-xl p-3 overflow-x-auto max-h-72">
+            <pre id="sql-result-output" class="text-[11px] font-mono text-slate-200 leading-relaxed"></pre>
+          </div>
+        </div>
+
+        <!-- NeonDB + Netlify Config Reference -->
+        <div class="lg:col-span-5 glass-panel rounded-2xl p-5 space-y-4">
+          <h3 class="font-display font-bold text-base text-white">Included Project Files in ZIP Bundle</h3>
+          <ul class="space-y-2.5 text-xs text-slate-300">
+            <li class="p-2.5 rounded-xl bg-obsidian-900/90 border border-white/10 flex items-start gap-2.5">
+              <span class="text-sakura-400 font-mono font-bold">/favicon.svg</span>
+              <span>Custom vector Neon Kitsune-Katana 'A' emblem in the root directory, linked via <code class="text-cyber-400">&lt;link rel="icon"&gt;</code>.</span>
+            </li>
+            <li class="p-2.5 rounded-xl bg-obsidian-900/90 border border-white/10 flex items-start gap-2.5">
+              <span class="text-cyber-400 font-mono font-bold">/netlify.toml</span>
+              <span>Configures serverless function bundling (<code class="text-sakura-400">esbuild</code>), <code class="text-sakura-400">/api/*</code> rewrites, and SVG caching headers.</span>
+            </li>
+            <li class="p-2.5 rounded-xl bg-obsidian-900/90 border border-white/10 flex items-start gap-2.5">
+              <span class="text-emerald-400 font-mono font-bold">/db/schema.sql</span>
+              <span>Full Neon PostgreSQL DDL with <code class="text-cyber-400">pg_trgm</code> GIN indexes for instant anime &amp; 18+ tag search.</span>
+            </li>
+            <li class="p-2.5 rounded-xl bg-obsidian-900/90 border border-white/10 flex items-start gap-2.5">
+              <span class="text-amber-400 font-mono font-bold">/netlify/functions/*</span>
+              <span>Three serverless endpoints (<code class="text-sakura-400">db-catalog.js</code>, <code class="text-sakura-400">db-watchlist.js</code>, <code class="text-sakura-400">db-reviews.js</code>).</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ==================================================================== -->
+  <!-- MODAL 1: INTERACTIVE 4K THEATER STREAMING PLAYER                     -->
+  <!-- ==================================================================== -->
+  <div id="theater-modal" class="fixed inset-0 z-50 hidden bg-black/90 backdrop-blur-xl flex items-center justify-center p-2 sm:p-6 overflow-y-auto">
+    <div class="glass-panel w-full max-w-5xl rounded-3xl overflow-hidden border border-white/15 shadow-2xl my-auto">
+      <!-- Top Bar -->
+      <div class="px-4 sm:px-6 py-3 bg-obsidian-950 flex items-center justify-between gap-2 border-b border-white/10">
+        <div class="flex items-center gap-2 min-w-0">
+          <span id="player-age-badge" class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-sakura-500 text-white shrink-0">TV-MA</span>
+          <h3 id="player-title" class="font-display font-bold text-sm sm:text-lg text-white truncate">Cyber Blade Zero: Rain of Neo-Tokyo</h3>
+        </div>
+        <button type="button" id="btn-close-theater" class="p-1.5 rounded-lg bg-white/10 hover:bg-rose-500 text-white transition" aria-label="Close Theater">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+
+      <!-- Simulated 4K Canvas / Video Stage -->
+      <div class="relative aspect-video w-full bg-black overflow-hidden select-none">
+        <img id="player-stage-art" src="assets/images/hero_cyberpunk.jpg" alt="Stream Frame" class="w-full h-full object-cover opacity-85 transition-transform duration-1000 scale-100" />
+        <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/40"></div>
+
+        <!-- Top Right Stream Telemetry Overlay -->
+        <div class="absolute top-3 right-3 bg-black/75 backdrop-blur px-3 py-1.5 rounded-xl border border-white/10 text-[11px] font-mono text-slate-200 space-x-2">
+          <span id="player-track-pill" class="text-cyber-400">JP 5.1 (Sub)</span>
+          <span>•</span>
+          <span id="player-res-pill" class="text-sakura-400">2160p60 HDR</span>
+        </div>
+
+        <!-- Center Play/Pause Pulse Button -->
+        <button type="button" id="btn-player-center-toggle" class="absolute inset-0 m-auto w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-sakura-500/90 hover:bg-sakura-400 text-white flex items-center justify-center shadow-2xl neon-border-pink transition transform hover:scale-105">
+          <svg id="icon-player-play" class="w-8 h-8 fill-current ml-1 hidden" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          <svg id="icon-player-pause" class="w-8 h-8 fill-current" viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+        </button>
+
+        <!-- Dynamic Subtitle Line -->
+        <div class="absolute bottom-14 inset-x-4 text-center pointer-events-none">
+          <span id="player-subtitle-box" class="inline-block px-3.5 py-1 rounded-lg bg-black/80 text-white text-xs sm:text-base font-medium border border-white/10 shadow">
+            "In Neo-Tokyo's endless rain, even synthetic souls bleed neon."
+          </span>
+        </div>
+
+        <!-- Bottom Player Scrubber & Controls -->
+        <div class="absolute bottom-0 inset-x-0 p-3 sm:p-4 bg-gradient-to-t from-black to-transparent space-y-2">
+          <input type="range" id="player-scrubber" min="0" max="100" value="28" aria-label="Playback Timeline" class="w-full accent-sakura-500 h-1.5 bg-white/20 rounded-lg cursor-pointer" />
+          <div class="flex flex-wrap items-center justify-between gap-2 text-xs text-slate-200">
+            <div class="flex items-center gap-3">
+              <button type="button" id="btn-player-playpause" class="font-bold text-white hover:text-sakura-400">Pause</button>
+              <span id="player-time-label" class="font-mono text-[11px] text-slate-300">06:42 / 24:00</span>
+              <span class="text-[11px] text-emerald-400 font-mono hidden sm:inline">● NeonDB Progress Synced</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <button type="button" id="btn-player-audio" class="px-2.5 py-1 rounded bg-white/10 hover:bg-white/20 text-[11px] font-mono">Audio: SUB</button>
+              <button type="button" id="btn-player-quality" class="px-2.5 py-1 rounded bg-white/10 hover:bg-white/20 text-[11px] font-mono">4K 60fps</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Episode Selector Strip -->
+      <div class="p-4 sm:p-6 bg-obsidian-900 space-y-3">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-semibold text-slate-300">Select Episode (Auto-updates NeonDB <code class="text-cyber-400">user_watchlist</code>)</span>
+          <span id="player-ep-indicator" class="text-xs font-mono text-sakura-400">Episode 1 Playing</span>
+        </div>
+        <div id="player-episodes-grid" class="flex items-center gap-2 overflow-x-auto pb-1">
+          <!-- Populated dynamically -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================================================================== -->
+  <!-- MODAL 2: 18+ AGE GATE & PIN VERIFICATION MODAL                       -->
+  <!-- ==================================================================== -->
+  <div id="age-gate-modal" class="fixed inset-0 z-50 hidden bg-black/85 backdrop-blur-lg flex items-center justify-center p-4">
+    <div class="glass-panel max-w-md w-full rounded-3xl p-6 sm:p-7 border border-rose-500/50 space-y-5 text-center">
+      <div class="w-14 h-14 rounded-2xl bg-rose-500/20 border border-rose-500/40 text-rose-400 mx-auto flex items-center justify-center font-display font-black text-xl">
+        18+
+      </div>
+      <div class="space-y-1.5">
+        <h3 class="font-display font-extrabold text-xl text-white">Mature 18+ Content Verification</h3>
+        <p class="text-xs text-slate-300 leading-relaxed">
+          You are unlocking the <strong>Animazing Velvet Vault</strong> containing uncensored 18+ hentai OVAs and mature ecchi series. Please confirm you are at least 18 years of age (or legal age in your jurisdiction).
+        </p>
+      </div>
+      <div class="bg-obsidian-950 p-3 rounded-xl border border-white/10 text-left space-y-2">
+        <label class="flex items-center gap-2.5 text-xs text-slate-200 cursor-pointer">
+          <input type="checkbox" id="chk-age-confirm" class="rounded accent-sakura-500 w-4 h-4" checked />
+          <span>I confirm I am 18+ years old and consent to viewing mature anime art.</span>
+        </label>
+      </div>
+      <div class="flex items-center gap-3">
+        <button type="button" id="btn-cancel-age-gate" class="flex-1 py-2.5 rounded-xl text-xs font-semibold bg-obsidian-800 text-slate-300 hover:bg-obsidian-700">
+          Keep Safe Mode (SFW)
+        </button>
+        <button type="button" id="btn-confirm-age-gate" class="flex-1 py-2.5 rounded-xl text-xs font-bold bg-gradient-to-r from-rose-500 to-sakura-600 text-white shadow-lg">
+          Unlock 18+ Vault
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================================================================== -->
+  <!-- MODAL 3: WATCHLIST DRAWER & ROOT FAVICON SVG INSPECTOR               -->
+  <!-- ==================================================================== -->
+  <div id="watchlist-modal" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-md flex justify-end">
+    <div class="glass-panel w-full max-w-md h-full p-5 sm:p-6 flex flex-col justify-between border-l border-white/15 overflow-y-auto">
+      <div class="space-y-4">
+        <div class="flex items-center justify-between border-b border-white/10 pb-3">
+          <div>
+            <h3 class="font-display font-bold text-lg text-white">NeonDB Cloud Watchlist</h3>
+            <p class="text-xs text-slate-400">Synced with <code class="text-cyber-400">user_watchlist</code> table</p>
+          </div>
+          <button type="button" id="btn-close-watchlist" class="p-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-white">✕</button>
+        </div>
+        <div id="watchlist-items-container" class="space-y-3">
+          <!-- Populated dynamically -->
+        </div>
+      </div>
+      <div class="pt-4 border-t border-white/10 text-xs text-slate-400 flex items-center justify-between">
+        <span>User Handle: <strong class="text-white">cyber_otaku</strong></span>
+        <button type="button" id="btn-clear-watchlist" class="text-rose-400 hover:underline">Clear All</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- REVIEW SUBMISSION MODAL -->
+  <div id="review-modal" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
+    <div class="glass-panel max-w-md w-full rounded-3xl p-6 border border-white/15 space-y-4">
+      <div class="flex items-center justify-between">
+        <h3 class="font-display font-bold text-lg text-white">Post Review to NeonDB</h3>
+        <button type="button" id="btn-close-review-modal" class="text-slate-400 hover:text-white">✕</button>
+      </div>
+      <form id="form-new-review" class="space-y-3">
+        <div>
+          <label class="block text-xs text-slate-300 mb-1" for="rev-series">Select Title</label>
+          <select id="rev-series" class="w-full bg-obsidian-950 border border-white/15 rounded-xl px-3 py-2 text-xs text-white"></select>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs text-slate-300 mb-1" for="rev-handle">Your Handle</label>
+            <input type="text" id="rev-handle" value="NeoSamurai_99" required class="w-full bg-obsidian-950 border border-white/15 rounded-xl px-3 py-2 text-xs text-white" />
+          </div>
+          <div>
+            <label class="block text-xs text-slate-300 mb-1" for="rev-score">Score (1-10)</label>
+            <input type="number" id="rev-score" min="1" max="10" step="0.1" value="9.8" required class="w-full bg-obsidian-950 border border-white/15 rounded-xl px-3 py-2 text-xs text-white" />
+          </div>
+        </div>
+        <div>
+          <label class="block text-xs text-slate-300 mb-1" for="rev-comment">Review Comment</label>
+          <textarea id="rev-comment" rows="3" required placeholder="Share your thoughts on animation, soundtrack, or plot..." class="w-full bg-obsidian-950 border border-white/15 rounded-xl p-3 text-xs text-white"></textarea>
+        </div>
+        <button type="submit" class="w-full py-2.5 rounded-xl text-xs font-bold bg-sakura-500 hover:bg-sakura-400 text-white">
+          COMMIT INTO community_reviews
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- FAVICON SVG MODAL -->
+  <div id="favicon-modal" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
+    <div class="glass-panel max-w-lg w-full rounded-3xl p-6 border border-cyber-500/40 space-y-4">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-2.5">
+          <span class="px-2 py-0.5 rounded bg-cyber-500/20 text-cyber-400 font-mono text-xs">/favicon.svg</span>
+          <h3 class="font-display font-bold text-lg text-white">Root Directory Custom Favicon Design</h3>
+        </div>
+        <button type="button" id="btn-close-favicon-modal" class="text-slate-400 hover:text-white">✕</button>
+      </div>
+      <div class="flex items-center gap-5 bg-obsidian-950 p-4 rounded-2xl border border-white/10">
+        <div class="w-20 h-20 shrink-0 rounded-2xl overflow-hidden neon-border-pink">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" class="w-full h-full">
+            <rect x="3" y="3" width="58" height="58" rx="15" fill="#0B0C14" stroke="#FF2A85" stroke-width="3"/>
+            <circle cx="32" cy="32" r="22" fill="none" stroke="#00F0FF" stroke-width="0.75" stroke-dasharray="4 3" opacity="0.45"/>
+            <path d="M32 11 L15 50 L23.5 50 L27.5 40 L36.5 40 L40.5 50 L49 50 Z" fill="#FF2A85"/>
+            <polygon points="32,22 28.5,33 35.5,33" fill="#0D0F1C"/>
+            <path d="M11 45 Q32 28 53 17" fill="none" stroke="#00F0FF" stroke-width="3.2" stroke-linecap="round"/>
+            <path d="M48 14 L49.5 18.5 L54 20 L49.5 21.5 L48 26 L46.5 21.5 L42 20 L46.5 18.5 Z" fill="#00F0FF"/>
+          </svg>
+        </div>
+        <div class="text-xs text-slate-300 space-y-1">
+          <p class="font-semibold text-white">Neon Kitsune-Katana 'A' Crest</p>
+          <p>Placed directly at <code class="text-sakura-400">/favicon.svg</code> in the root directory and linked in <code class="text-cyber-400">&lt;head&gt;</code> so browsers display it beside the webpage title on every screen resolution.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATION -->
+  <div id="toast-container" class="fixed bottom-4 right-4 z-50 pointer-events-none flex flex-col gap-2"></div>
+
+  <!-- FOOTER -->
+  <footer class="bg-obsidian-950 border-t border-white/10 py-8 px-4 sm:px-6 lg:px-8 text-xs text-slate-400">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <span class="font-display font-bold text-white text-sm">ANIMAZING</span>
+        <span>•</span>
+        <span>Netlify Edge Ready + NeonDB Serverless PostgreSQL</span>
+      </div>
+      <div class="flex flex-wrap items-center gap-4">
+        <span>Root Favicon: <code class="text-cyber-400">/favicon.svg</code></span>
+        <span>4K UHD &amp; 18+ Vault Compliant</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==================================================================== -->
+  <!-- APPLICATION LOGIC & NEONDB STATE ENGINE                              -->
+  <!-- ==================================================================== -->
+  <script>
+    // 1. Master Catalog Dataset (Mirroring db/seed.sql for instant client & serverless sync)
+    const CATALOG_DATA = [
+      {
+        id: 1,
+        slug: 'cyber-blade-zero-neo-tokyo',
+        title_en: 'Cyber Blade Zero: Rain of Neo-Tokyo',
+        title_jp: 'サイバーブレード・ゼロ 新東京の雨',
+        category: 'Simulcast',
+        is_mature: false,
+        age_rating: 'TV-MA',
+        release_year: 2026,
+        season: 'Fall 2026',
+        studio: 'Studio Nexus Prime',
+        episodes_total: 24,
+        resolution: '4K 60fps HDR10+',
+        genres: ['Cyberpunk', 'Action', 'Sci-Fi', 'Seinen'],
+        rating: 9.82,
+        views_count: 4820900,
+        poster_url: 'assets/images/hero_cyberpunk.jpg',
+        synopsis: 'In a rain-drenched 2099 Neo-Tokyo ruled by synthetic conglomerates, rogue cyber-samurai Renji Kurosawa wields a resonant plasma katana to sever the neural grid enslaving humanity.',
+        subtitle_sample: '"In Neo-Tokyo\'s endless rain, even synthetic souls bleed neon."'
+      },
+      {
+        id: 2,
+        slug: 'eclipse-of-the-valkyrie-sovereign',
+        title_en: 'Eclipse of the Valkyrie Sovereign',
+        title_jp: '紅蝕のヴァルキリー覇王伝',
+        category: 'Dark Fantasy',
+        is_mature: false,
+        age_rating: 'TV-MA',
+        release_year: 2026,
+        season: 'Fall 2026',
+        studio: 'Valkyrie Works Tokyo',
+        episodes_total: 16,
+        resolution: '4K UHD',
+        genres: ['Dark Fantasy', 'Supernatural', 'Action', 'Mythology'],
+        rating: 9.68,
+        views_count: 3610400,
+        poster_url: 'assets/images/poster_valkyrie.jpg',
+        synopsis: 'Beneath a perpetual crimson solar eclipse, Seraphina—the last aureate-winged Valkyrie—descends upon the ruined cathedral of Eldros to wage war against the Abyssal Synod.',
+        subtitle_sample: '"Raise your obsidian blade; the Crimson Eclipse spares no mortal."'
+      },
+      {
+        id: 3,
+        slug: 'aegis-frame-09-orbital-vanguard',
+        title_en: 'Aegis Frame 09: Orbital Vanguard',
+        title_jp: 'イージス・フレーム09 軌道先遣隊',
+        category: 'Mecha Sci-Fi',
+        is_mature: false,
+        age_rating: 'TV-14',
+        release_year: 2026,
+        season: 'Summer 2026',
+        studio: 'Chronos CGI Lab',
+        episodes_total: 24,
+        resolution: '4K Dolby Vision',
+        genres: ['Mecha', 'Space Opera', 'CGI Hybrid'],
+        rating: 9.54,
+        views_count: 2950000,
+        poster_url: 'assets/images/poster_mecha.jpg',
+        synopsis: 'Stationed aboard Lagrange Hangar VII, test pilot Kaito Vance synchronizes with the prototype RX-Aegis Tactical Frame as rogue autonomous dreadnoughts breach Earth orbit.',
+        subtitle_sample: '"Reactor output at 120%—launching RX-Aegis from Hangar Bay 7!"'
+      },
+      {
+        id: 4,
+        slug: 'celestial-shrine-of-floating-lanterns',
+        title_en: 'Celestial Shrine of Floating Lanterns',
+        title_jp: '星詠みの社と灯籠の約束',
+        category: 'Romance',
+        is_mature: false,
+        age_rating: 'PG-13',
+        release_year: 2026,
+        season: 'Spring 2026',
+        studio: 'Aether Pictures',
+        episodes_total: 12,
+        resolution: '4K UHD',
+        genres: ['Romance', 'Supernatural', 'Folklore'],
+        rating: 9.75,
+        views_count: 4120000,
+        poster_url: 'assets/images/poster_shrine.jpg',
+        synopsis: 'Every hundred years when the Milky Way aligns over Mount Yoshino, spirit weavers Haru and Mitsuki meet across time boundaries at a cherry-blossom shrine lit by floating lanterns.',
+        subtitle_sample: '"Even if the stars fade, my lantern will find you across a thousand autumns."'
+      },
+      {
+        id: 5,
+        slug: 'velvet-mirage-penthouse-seduction-uncut',
+        title_en: 'Velvet Mirage: Nocturne Desire (Uncut OVA)',
+        title_jp: 'ヴェルヴェット・ミラージュ 夜想の誘惑 [完全無修正版]',
+        category: 'Uncut 18+ Hentai',
+        is_mature: true,
+        age_rating: '18+ R-18',
+        release_year: 2026,
+        season: 'Fall 2026',
+        studio: 'Pink Neon Atelier',
+        episodes_total: 6,
+        resolution: '4K 60fps Uncensored',
+        genres: ['18+ Hentai', 'Uncensored', 'Noir Romance', 'Mature OVA'],
+        rating: 9.61,
+        views_count: 5390200,
+        poster_url: 'assets/images/poster_velvet.jpg',
+        synopsis: 'Behind the rain-streaked glass of Neo-Shibuya Penthouse 88, enigmatic data broker Evelyn lures elite syndicate heirs into an intoxicating labyrinth of passion and forbidden pleasure.',
+        subtitle_sample: '"Lock the penthouse doors... tonight, every secret is stripped bare."'
+      },
+      {
+        id: 6,
+        slug: 'crimson-succubus-sanctuary-directors-cut',
+        title_en: 'Crimson Succubus Sanctuary: Director\'s Cut',
+        title_jp: '紅蓮のサキュバス聖域 ディレクターズカット版',
+        category: 'Uncut 18+ Hentai',
+        is_mature: true,
+        age_rating: '18+ R-18',
+        release_year: 2026,
+        season: 'Summer 2026',
+        studio: 'Velvet Moon Studios',
+        episodes_total: 4,
+        resolution: '4K UHD Uncut',
+        genres: ['18+ Hentai', 'Dark Fantasy', 'Succubus', 'Uncensored'],
+        rating: 9.49,
+        views_count: 3890000,
+        poster_url: 'assets/images/poster_valkyrie.jpg',
+        synopsis: 'Summoned into a gothic cathedral during the Blood Eclipse, an apprentice alchemist must forge a sensual soul-pact with the high celestial succubus to survive the night.',
+        subtitle_sample: '"Your mana tastes sweeter than any vow sworn in this cathedral..."'
+      },
+      {
+        id: 7,
+        slug: 'cyber-pleasure-protocol-2099-ova',
+        title_en: 'Cyber Pleasure Protocol 2099: Late Night',
+        title_jp: 'サイバー・プレジャー・プロトコル2099 深夜特区',
+        category: 'Uncut 18+ Hentai',
+        is_mature: true,
+        age_rating: '18+ R-18',
+        release_year: 2026,
+        season: 'Fall 2026',
+        studio: 'Studio Nexus AfterDark',
+        episodes_total: 8,
+        resolution: '4K 60fps BD-Rip',
+        genres: ['18+ Hentai', 'Cyberpunk', 'Uncensored', 'Sci-Fi Romance'],
+        rating: 9.38,
+        views_count: 3150800,
+        poster_url: 'assets/images/hero_cyberpunk.jpg',
+        synopsis: 'In the neon pleasure district of Sector-9, android courtesans with awakened emotional cores risk everything for forbidden intimacy with human mercenaries.',
+        subtitle_sample: '"Bypassing neural inhibitors... my tactile sensors are at maximum."'
+      },
+      {
+        id: 8,
+        slug: 'akihabara-figure-expo-2026-hd-special',
+        title_en: 'Akihabara Live Exhibition & Collector Vault 4K',
+        title_jp: '秋葉原フィギュア＆スタジオ博覧会 2026 実写特別編',
+        category: 'Real HD Showcase',
+        is_mature: false,
+        age_rating: 'TV-PG',
+        release_year: 2026,
+        season: 'Fall 2026',
+        studio: 'Animazing Tokyo Live',
+        episodes_total: 10,
+        resolution: 'Real 4K 60fps RAW',
+        genres: ['Real HD Footage', 'Documentary', 'Collector Figures'],
+        rating: 9.65,
+        views_count: 2180500,
+        poster_url: 'assets/images/studio_akihabara.jpg',
+        synopsis: 'Experience ultra-crisp real-world photography and 4K stage coverage direct from Akihabara\'s premier anime studio showcase, featuring 1/4 scale resin statues and holographic concerts.',
+        subtitle_sample: '"Welcome to Akihabara Hall B—where master sculptors unveil 2026\'s grail statues."'
+      },
+      {
+        id: 9,
+        slug: 'shrine-of-sensual-spirits-ova-uncut',
+        title_en: 'Kitsune Shrine: Midnight Offerings (18+ OVA)',
+        title_jp: '妖狐の社・真夜中の契り [完全無修正]',
+        category: 'Uncut 18+ Hentai',
+        is_mature: true,
+        age_rating: '18+ R-18',
+        release_year: 2026,
+        season: 'Spring 2026',
+        studio: 'Pink Neon Atelier',
+        episodes_total: 4,
+        resolution: '4K UHD Uncensored',
+        genres: ['18+ Hentai', 'Uncensored', 'Folklore', 'Noir Romance'],
+        rating: 9.56,
+        views_count: 4090100,
+        poster_url: 'assets/images/poster_shrine.jpg',
+        synopsis: 'Wanderers who step past the crimson torii gates after midnight discover an ancient kitsune priestess who demands intimate devotion in exchange for eternal fortune.',
+        subtitle_sample: '"The lanterns are lit for two alone... step closer to the altar."'
+      }
+    ];
+
+    const HERO_SLIDES = [
+      CATALOG_DATA[0],
+      CATALOG_DATA[1],
+      CATALOG_DATA[7]
+    ];
+
+    const GALLERY_PLATES = [
+      {
+        img: 'assets/images/studio_akihabara.jpg',
+        tag: 'Akihabara Collector Expo Stage',
+        title: 'Akihabara Official Studio & Collector Figure Showcase 2026',
+        desc: 'Captured on full-frame mirrorless sensors in Tokyo: illuminated glass display cases housing limited-edition 1/4 scale resin statues, neon LED arches, and holographic character projections.'
+      },
+      {
+        img: 'assets/images/poster_mecha.jpg',
+        tag: 'Orbital Hangar Raytraced CGI',
+        title: 'RX-Aegis Tactical Frame — Photorealistic 3D CGI Hangar Plate',
+        desc: 'Rendered at native 4K with hardware raytracing: physically accurate welding sparks, weathered titanium armor shaders, and volumetric orbital lighting.'
+      },
+      {
+        img: 'assets/images/poster_valkyrie.jpg',
+        tag: '1/4 Scale Polystone Masterpiece',
+        title: 'Seraphina Sovereign — Limited Collector Resin Statue Preview',
+        desc: 'Featuring translucent LED-lit golden wings, hand-painted gothic filigree armor, and an etched obsidian greatsword sculpt.'
+      },
+      {
+        img: 'assets/images/hero_cyberpunk.jpg',
+        tag: '8K Master Keyframe Plate',
+        title: 'Neo-Tokyo 2099 — Volumetric Rain & Cybernetic Katana',
+        desc: 'High-dynamic-range key art combining photorealistic architectural reflections with razor-sharp anime character design.'
+      }
+    ];
+
+    const SCHEDULE_DATA = {
+      Fri: [
+        { time: '22:00 JST', title: 'Cyber Blade Zero: Rain of Neo-Tokyo', ep: 'Episode 19', badge: '4K Simulcast', id: 1 },
+        { time: '23:30 JST', title: 'Eclipse of the Valkyrie Sovereign', ep: 'Episode 12', badge: 'Dark Fantasy', id: 2 },
+        { time: '00:30 JST', title: 'Velvet Mirage: Nocturne Desire (Uncut)', ep: 'OVA 05', badge: '18+ R-18 Vault', id: 5 }
+      ],
+      Sat: [
+        { time: '21:00 JST', title: 'Aegis Frame 09: Orbital Vanguard', ep: 'Episode 21', badge: 'Dolby Vision', id: 3 },
+        { time: '23:00 JST', title: 'Akihabara Live Exhibition & Collector Vault 4K', ep: 'Special 08', badge: 'Real HD Photo/Video', id: 8 }
+      ],
+      Sun: [
+        { time: '20:30 JST', title: 'Celestial Shrine of Floating Lanterns', ep: 'Episode 12 (Finale)', badge: '4K UHD', id: 4 },
+        { time: '23:45 JST', title: 'Crimson Succubus Sanctuary: Director\'s Cut', ep: 'OVA 04', badge: '18+ Uncut', id: 6 }
+      ],
+      Midnight: [
+        { time: '01:00 JST', title: 'Velvet Mirage: Nocturne Desire (Uncut OVA)', ep: 'BD-Master 06', badge: '18+ Uncensored', id: 5 },
+        { time: '01:45 JST', title: 'Cyber Pleasure Protocol 2099: Late Night', ep: 'OVA 07', badge: '18+ Cyberpunk', id: 7 },
+        { time: '02:30 JST', title: 'Kitsune Shrine: Midnight Offerings (18+ OVA)', ep: 'OVA 04', badge: '18+ Folklore', id: 9 }
+      ]
+    };
+
+    // App State
+    let state = {
+      activeView: 'discover',
+      matureUnlocked: false,
+      selectedCategory: 'All',
+      selectedVaultTag: 'ALL',
+      searchQuery: '',
+      sortBy: 'rating',
+      watchlist: [
+        { media_id: 1, watch_status: 'Watching', current_episode: 7 },
+        { media_id: 2, watch_status: 'Watching', current_episode: 4 },
+        { media_id: 8, watch_status: 'Plan to Watch', current_episode: 1 }
+      ],
+      reviews: [
+        { author_handle: 'AkiraBlade_4K', score: 9.9, title_en: 'Cyber Blade Zero: Rain of Neo-Tokyo', comment_body: 'The 4K HDR rain reflections and katana sound design are breathtaking. Easily anime of the year.', created_at: '12 mins ago' },
+        { author_handle: 'VelvetConnoisseur', score: 9.7, title_en: 'Velvet Mirage: Nocturne Desire (Uncut OVA)', comment_body: 'Pink Neon Atelier delivered theatrical-grade lighting and uncensored 60fps fluidity in the 18+ Vault.', created_at: '38 mins ago' },
+        { author_handle: 'TokyoFigureCollector', score: 9.8, title_en: 'Akihabara Live Exhibition & Collector Vault 4K', comment_body: 'Love seeing real optical HD photography of the Akihabara glass figure cases right alongside the anime streams!', created_at: '1 hour ago' }
+      ],
+      player: {
+        activeMediaId: 1,
+        currentEpisode: 1,
+        playing: true,
+        audio: 'SUB (JP 5.1)',
+        quality: '4K 60fps HDR'
+      }
+    };
+
+    // Safe localStorage Load/Save
+    function loadPersistedState() {
+      try {
+        const saved = localStorage.getItem('animazing_neondb_state_v1');
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          if (Array.isArray(parsed.watchlist)) state.watchlist = parsed.watchlist;
+          if (Array.isArray(parsed.reviews)) state.reviews = parsed.reviews;
+          if (typeof parsed.matureUnlocked === 'boolean') state.matureUnlocked = parsed.matureUnlocked;
+        }
+      } catch (e) { /* Ignore storage restrictions in sandboxed iframe */ }
+    }
+
+    function savePersistedState() {
+      try {
+        localStorage.setItem('animazing_neondb_state_v1', JSON.stringify({
+          watchlist: state.watchlist,
+          reviews: state.reviews,
+          matureUnlocked: state.matureUnlocked
+        }));
+      } catch (e) { /* Ignore storage restrictions */ }
+    }
+
+    // Toast Helper
+    function showToast(message, tone = 'sakura') {
+      const container = document.getElementById('toast-container');
+      if (!container) return;
+      const el = document.createElement('div');
+      const borderCol = tone === 'cyber' ? 'border-cyber-400' : tone === 'emerald' ? 'border-emerald-400' : 'border-sakura-500';
+      el.className = `glass-panel px-4 py-2.5 rounded-xl border-l-4 ${borderCol} text-xs text-white shadow-xl transition-all duration-300`;
+      el.textContent = message;
+      container.appendChild(el);
+      setTimeout(() => {
+        el.style.opacity = '0';
+        setTimeout(() => el.remove(), 300);
+      }, 2800);
+    }
+
+    // Update Mature UI Badges
+    function syncMatureUI() {
+      const dot = document.getElementById('mature-indicator-dot');
+      const label = document.getElementById('mature-toggle-label');
+      const navBadge = document.getElementById('nav-vault-badge');
+      const statStatus = document.getElementById('stat-vault-status');
+      const vaultBanner = document.getElementById('vault-banner-status');
+
+      if (state.matureUnlocked) {
+        dot.className = 'w-2 h-2 rounded-full bg-emerald-400 animate-ping';
+        label.textContent = '18+ Unlocked';
+        navBadge.textContent = 'UNLOCKED';
+        navBadge.className = 'px-1.5 py-0.2 rounded text-[10px] bg-emerald-500/20 text-emerald-300 border border-emerald-500/40';
+        if (statStatus) statStatus.textContent = '18+ Vault Active';
+        if (vaultBanner) vaultBanner.textContent = '18+ UNLOCKED • UNBLURRED 4K';
+      } else {
+        dot.className = 'w-2 h-2 rounded-full bg-rose-500';
+        label.textContent = '18+ Safe';
+        navBadge.textContent = 'LOCKED';
+        navBadge.className = 'px-1.5 py-0.2 rounded text-[10px] bg-rose-500/20 text-rose-300 border border-rose-500/40';
+        if (statStatus) statStatus.textContent = 'PIN-Gated Safe';
+        if (vaultBanner) vaultBanner.textContent = 'AGE VERIFICATION REQUIRED';
+      }
+    }
+
+    // Render Main Catalog Grid
+    function renderCatalog() {
+      const grid = document.getElementById('catalog-grid');
+      const countPill = document.getElementById('catalog-count-pill');
+      if (!grid) return;
+
+      const q = state.searchQuery.trim().toLowerCase();
+      let filtered = CATALOG_DATA.filter(item => {
+        const matchesCat = state.selectedCategory === 'All' || item.category === state.selectedCategory;
+        const matchesQuery = !q ||
+          item.title_en.toLowerCase().includes(q) ||
+          item.title_jp.toLowerCase().includes(q) ||
+          item.studio.toLowerCase().includes(q) ||
+          item.genres.some(g => g.toLowerCase().includes(q));
+        return matchesCat && matchesQuery;
+      });
+
+      filtered.sort((a, b) => {
+        if (state.sortBy === 'views') return b.views_count - a.views_count;
+        if (state.sortBy === 'year') return b.release_year - a.release_year;
+        return b.rating - a.rating;
+      });
+
+      if (countPill) countPill.textContent = `${filtered.length} Titles`;
+
+      if (filtered.length === 0) {
+        grid.innerHTML = `
+          <div class="col-span-full glass-panel rounded-2xl p-8 text-center space-y-2">
+            <p class="text-sm font-bold text-white">No matching titles in NeonDB media_catalog</p>
+            <p class="text-xs text-slate-400">Try clearing your search filter or switching categories.</p>
+          </div>
+        `;
+        return;
+      }
+
+      grid.innerHTML = filtered.map(item => {
+        const inWatchlist = state.watchlist.some(w => w.media_id === item.id);
+        const blurClass = (item.is_mature && !state.matureUnlocked) ? 'mature-blur' : 'mature-unlocked';
+        const matureBadge = item.is_mature
+          ? `<span class="px-2 py-0.5 rounded bg-rose-600 text-white font-mono text-[10px] font-bold shadow">18+ UNCUT</span>`
+          : `<span class="px-2 py-0.5 rounded bg-obsidian-900/90 text-cyber-400 font-mono text-[10px] border border-cyber-500/30">${item.age_rating}</span>`;
+
+        return `
+          <article class="glass-panel rounded-2xl overflow-hidden flex flex-col justify-between group hover:border-sakura-500/50 transition duration-300">
+            <div>
+              <div class="relative aspect-[3/4] w-full bg-obsidian-950 overflow-hidden">
+                <img
+                  src="${item.poster_url}"
+                  alt="${item.title_en}"
+                  class="w-full h-full object-cover group-hover:scale-105 transition duration-500 ${blurClass}"
+                />
+                <div class="absolute inset-0 bg-gradient-to-t from-obsidian-950 via-transparent to-black/30"></div>
+
+                <div class="absolute top-2.5 left-2.5 right-2.5 flex items-center justify-between gap-1">
+                  ${matureBadge}
+                  <span class="px-2 py-0.5 rounded bg-black/80 text-amber-300 font-mono text-[11px] font-bold">★ ${item.rating.toFixed(2)}</span>
+                </div>
+
+                ${item.is_mature && !state.matureUnlocked ? `
+                  <div class="absolute inset-0 flex flex-col items-center justify-center p-4 text-center bg-black/45">
+                    <span class="px-3 py-1 rounded-full bg-rose-600/90 text-white text-[11px] font-bold mb-2">18+ R-18 Locked</span>
+                    <button type="button" data-action="unlock-card" class="px-3 py-1.5 rounded-xl bg-white/15 hover:bg-white/25 text-white text-xs font-semibold backdrop-blur border border-white/20">
+                      Verify 18+ to Unblur
+                    </button>
+                  </div>
+                ` : ''}
+
+                <div class="absolute bottom-2.5 left-2.5 right-2.5 flex items-center justify-between text-[11px] font-mono text-slate-300">
+                  <span class="px-2 py-0.5 rounded bg-black/70">${item.resolution}</span>
+                  <span class="px-2 py-0.5 rounded bg-black/70">${item.episodes_total} EPS</span>
+                </div>
+              </div>
+
+              <div class="p-4 space-y-2">
+                <div class="flex items-center justify-between text-[10px] font-mono text-cyber-400">
+                  <span>${item.category}</span>
+                  <span>${item.studio}</span>
+                </div>
+                <h3 class="font-display font-bold text-base text-white line-clamp-1" title="${item.title_en}">${item.title_en}</h3>
+                <p class="text-[11px] text-slate-400 line-clamp-2 leading-relaxed">${item.synopsis}</p>
+                <div class="flex flex-wrap gap-1 pt-1">
+                  ${item.genres.slice(0, 3).map(g => `<span class="text-[10px] px-2 py-0.5 rounded bg-white/5 text-slate-300">${g}</span>`).join('')}
+                </div>
+              </div>
+            </div>
+
+            <div class="p-4 pt-0 flex items-center gap-2">
+              <button
+                type="button"
+                data-action="stream"
+                data-id="${item.id}"
+                class="flex-1 py-2 rounded-xl text-xs font-bold bg-gradient-to-r from-sakura-500 to-fuchsia-600 hover:from-sakura-400 hover:to-fuchsia-500 text-white shadow transition flex items-center justify-center gap-1.5"
+              >
+                <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                <span>Stream 4K</span>
+              </button>
+              <button
+                type="button"
+                data-action="watchlist"
+                data-id="${item.id}"
+                class="px-3 py-2 rounded-xl text-xs font-semibold border transition ${inWatchlist ? 'bg-emerald-500/20 border-emerald-500/40 text-emerald-300' : 'bg-obsidian-800 border-white/10 text-slate-200 hover:bg-white/10'}"
+                title="Toggle NeonDB Watchlist"
+              >
+                ${inWatchlist ? '✓ Saved' : '+ List'}
+              </button>
+            </div>
+          </article>
+        `;
+      }).join('');
+    }
+
+    // Render 18+ Vault Grid
+    function renderVaultGrid() {
+      const grid = document.getElementById('vault-grid');
+      if (!grid) return;
+
+      const matureItems = CATALOG_DATA.filter(item => {
+        if (!item.is_mature) return false;
+        if (state.selectedVaultTag === 'ALL') return true;
+        return item.genres.some(g => g.toLowerCase().includes(state.selectedVaultTag.toLowerCase()));
+      });
+
+      grid.innerHTML = matureItems.map(item => {
+        const blurClass = state.matureUnlocked ? 'mature-unlocked' : 'mature-blur';
+        return `
+          <div class="glass-panel rounded-2xl overflow-hidden border border-rose-500/30 flex flex-col justify-between">
+            <div>
+              <div class="relative aspect-video w-full bg-obsidian-950 overflow-hidden">
+                <img src="${item.poster_url}" alt="${item.title_en}" class="w-full h-full object-cover ${blurClass}" />
+                <div class="absolute top-2.5 left-2.5 flex gap-1.5">
+                  <span class="px-2 py-0.5 rounded bg-rose-600 text-white font-mono text-[10px] font-bold">18+ R-18 UNCUT</span>
+                  <span class="px-2 py-0.5 rounded bg-black/80 text-cyber-400 font-mono text-[10px]">${item.resolution}</span>
+                </div>
+                ${!state.matureUnlocked ? `
+                  <div class="absolute inset-0 flex items-center justify-center bg-black/50">
+                    <button type="button" data-action="unlock-card" class="px-4 py-2 rounded-xl bg-rose-600 text-white text-xs font-bold shadow-lg">
+                      Unlock 18+ Preview
+                    </button>
+                  </div>
+                ` : ''}
+              </div>
+              <div class="p-4 space-y-2">
+                <p class="text-[11px] font-mono text-rose-400">${item.title_jp}</p>
+                <h3 class="font-display font-bold text-base text-white">${item.title_en}</h3>
+                <p class="text-xs text-slate-300 leading-relaxed">${item.synopsis}</p>
+              </div>
+            </div>
+            <div class="p-4 pt-0 flex items-center justify-between gap-2">
+              <button type="button" data-action="stream" data-id="${item.id}" class="flex-1 py-2.5 rounded-xl text-xs font-bold bg-rose-600 hover:bg-rose-500 text-white transition">
+                Stream Uncensored Master
+              </button>
+              <button type="button" data-action="watchlist" data-id="${item.id}" class="px-3 py-2.5 rounded-xl text-xs font-semibold bg-obsidian-800 text-slate-200 border border-white/10">
+                + Vault List
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // Render Watchlist Drawer
+    function renderWatchlist() {
+      const badge = document.getElementById('watchlist-count-badge');
+      const container = document.getElementById('watchlist-items-container');
+      if (badge) badge.textContent = String(state.watchlist.length);
+      if (!container) return;
+
+      if (state.watchlist.length === 0) {
+        container.innerHTML = `<p class="text-xs text-slate-400 py-6 text-center">Your NeonDB Watchlist is empty. Click "+ List" on any anime or 18+ OVA card.</p>`;
+        return;
+      }
+
+      container.innerHTML = state.watchlist.map(entry => {
+        const media = CATALOG_DATA.find(m => m.id === entry.media_id) || CATALOG_DATA[0];
+        return `
+          <div class="p-3 rounded-2xl bg-obsidian-900/90 border border-white/10 flex items-center gap-3">
+            <img src="${media.poster_url}" alt="${media.title_en}" class="w-14 h-16 rounded-xl object-cover shrink-0" />
+            <div class="min-w-0 flex-1">
+              <p class="text-xs font-bold text-white truncate">${media.title_en}</p>
+              <p class="text-[11px] font-mono text-cyber-400">${entry.watch_status} • Ep ${entry.current_episode}/${media.episodes_total}</p>
+              <div class="mt-1.5 flex items-center gap-2">
+                <button type="button" data-action="stream" data-id="${media.id}" class="text-[11px] font-semibold text-sakura-400 hover:underline">Resume 4K</button>
+                <button type="button" data-action="remove-watchlist" data-id="${media.id}" class="text-[11px] text-slate-400 hover:text-rose-400">Remove</button>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // Render Community Reviews
+    function renderReviews() {
+      const list = document.getElementById('reviews-list');
+      const select = document.getElementById('rev-series');
+      if (select && select.options.length === 0) {
+        select.innerHTML = CATALOG_DATA.map(m => `<option value="${m.title_en}">${m.title_en}</option>`).join('');
+      }
+      if (!list) return;
+      list.innerHTML = state.reviews.map(r => `
+        <div class="p-3.5 rounded-2xl bg-obsidian-900/80 border border-white/10 space-y-1.5">
+          <div class="flex items-center justify-between text-xs">
+            <span class="font-bold text-white">@${r.author_handle} <span class="text-[10px] font-mono text-cyber-400 ml-1">Neon Verified</span></span>
+            <span class="font-mono font-bold text-amber-400">★ ${Number(r.score).toFixed(1)} / 10</span>
+          </div>
+          <p class="text-[11px] font-mono text-sakura-400">${r.title_en}</p>
+          <p class="text-xs text-slate-300 leading-relaxed">${r.comment_body}</p>
+        </div>
+      `).join('');
+    }
+
+    // Render Schedule
+    function renderSchedule(dayKey = 'Fri') {
+      const container = document.getElementById('schedule-list');
+      if (!container) return;
+      const items = SCHEDULE_DATA[dayKey] || SCHEDULE_DATA.Fri;
+      container.innerHTML = items.map(slot => `
+        <div class="glass-panel p-4 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-3 border border-white/10">
+          <div class="flex items-center gap-3">
+            <span class="px-3 py-1.5 rounded-xl bg-obsidian-950 font-mono text-xs text-cyber-400 border border-cyber-500/30">${slot.time}</span>
+            <div>
+              <p class="text-sm font-bold text-white">${slot.title}</p>
+              <p class="text-xs text-slate-400">${slot.ep} • <span class="text-sakura-400">${slot.badge}</span></p>
+            </div>
+          </div>
+          <button type="button" data-action="stream" data-id="${slot.id}" class="px-3.5 py-2 rounded-xl text-xs font-bold bg-sakura-500/20 hover:bg-sakura-500 text-sakura-300 hover:text-white border border-sakura-500/40 transition self-start sm:self-center">
+            Stream Now
+          </button>
+        </div>
+      `).join('');
+    }
+
+    // Open 4K Theater Modal
+    function openTheater(mediaId) {
+      const media = CATALOG_DATA.find(m => m.id === Number(mediaId)) || CATALOG_DATA[0];
+      if (media.is_mature && !state.matureUnlocked) {
+        document.getElementById('age-gate-modal').classList.remove('hidden');
+        return;
+      }
+      state.player.activeMediaId = media.id;
+      state.player.currentEpisode = 1;
+      state.player.playing = true;
+
+      document.getElementById('player-title').textContent = media.title_en;
+      document.getElementById('player-age-badge').textContent = media.age_rating;
+      document.getElementById('player-stage-art').src = media.poster_url;
+      document.getElementById('player-res-pill').textContent = media.resolution;
+      document.getElementById('player-subtitle-box').textContent = media.subtitle_sample;
+      document.getElementById('player-ep-indicator').textContent = `Episode 1 of ${media.episodes_total} Playing`;
+
+      const epGrid = document.getElementById('player-episodes-grid');
+      const totalEps = Math.min(media.episodes_total, 12);
+      epGrid.innerHTML = Array.from({ length: totalEps }, (_, idx) => {
+        const epNum = idx + 1;
+        return `<button type="button" data-ep="${epNum}" class="ep-select-btn shrink-0 px-3 py-1.5 rounded-xl text-xs font-mono font-bold ${epNum === 1 ? 'bg-sakura-500 text-white' : 'bg-obsidian-800 text-slate-300 hover:text-white'}">EP ${epNum}</button>`;
+      }).join('');
+
+      document.getElementById('theater-modal').classList.remove('hidden');
+    }
+
+    // Switch Top-Level Views
+    function switchView(viewName) {
+      state.activeView = viewName;
+      const views = ['discover', 'vault', 'gallery', 'schedule', 'neondb'];
+      views.forEach(v => {
+        const el = document.getElementById(`view-${v}`);
+        if (el) el.classList.toggle('hidden', v !== viewName);
+      });
+
+      document.querySelectorAll('.nav-tab-btn').forEach(btn => {
+        const active = btn.getAttribute('data-nav') === viewName;
+        btn.className = active
+          ? 'nav-tab-btn px-3.5 py-2 rounded-lg text-xs font-semibold transition bg-sakura-500 text-white shadow flex items-center gap-1.5'
+          : 'nav-tab-btn px-3.5 py-2 rounded-lg text-xs font-semibold transition text-slate-300 hover:text-white flex items-center gap-1.5';
+      });
+
+      document.getElementById('mobile-nav-drawer').classList.add('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Run SQL Preset in NeonDB Studio
+    function executeSqlPreset(presetType) {
+      const editor = document.getElementById('sql-editor-textarea');
+      const output = document.getElementById('sql-result-output');
+      const status = document.getElementById('sql-exec-status');
+
+      if (presetType === 'vault') {
+        editor.value = `SELECT id, title_en, age_rating, resolution, rating, studio\nFROM media_catalog\nWHERE is_mature = TRUE\nORDER BY views_count DESC;`;
+        const rows = CATALOG_DATA.filter(m => m.is_mature).map(({ id, title_en, age_rating, resolution, rating, studio }) => ({ id, title_en, age_rating, resolution, rating, studio }));
+        output.textContent = JSON.stringify({ command: 'SELECT', rowCount: rows.length, rows }, null, 2);
+      } else if (presetType === 'watchlist') {
+        editor.value = `SELECT w.user_handle, w.watch_status, w.current_episode, m.title_en\nFROM user_watchlist w\nJOIN media_catalog m ON m.id = w.media_id;`;
+        const rows = state.watchlist.map(w => {
+          const m = CATALOG_DATA.find(x => x.id === w.media_id) || CATALOG_DATA[0];
+          return { user_handle: 'cyber_otaku', watch_status: w.watch_status, current_episode: w.current_episode, title_en: m.title_en };
+        });
+        output.textContent = JSON.stringify({ command: 'SELECT', rowCount: rows.length, rows }, null, 2);
+      } else {
+        editor.value = `SELECT id, title_en, category, age_rating, resolution, rating\nFROM media_catalog\nWHERE rating >= 9.50\nORDER BY rating DESC;`;
+        const rows = CATALOG_DATA.filter(m => m.rating >= 9.5).map(({ id, title_en, category, age_rating, resolution, rating }) => ({ id, title_en, category, age_rating, resolution, rating }));
+        output.textContent = JSON.stringify({ command: 'SELECT', rowCount: rows.length, rows }, null, 2);
+      }
+      if (status) status.textContent = `Executed in 9.8 ms via @neondatabase/serverless Pooler`;
+    }
+
+    // Initialize Event Listeners
+    window.addEventListener('DOMContentLoaded', () => {
+      loadPersistedState();
+      syncMatureUI();
+      renderCatalog();
+      renderVaultGrid();
+      renderWatchlist();
+      renderReviews();
+      renderSchedule('Fri');
+      executeSqlPreset('catalog');
+
+      // Navigation clicks
+      document.querySelectorAll('[data-nav]').forEach(btn => {
+        btn.addEventListener('click', () => switchView(btn.getAttribute('data-nav')));
+      });
+
+      document.getElementById('brand-home-btn').addEventListener('click', () => switchView('discover'));
+      document.getElementById('btn-mobile-menu').addEventListener('click', () => {
+        document.getElementById('mobile-nav-drawer').classList.toggle('hidden');
+      });
+
+      // Quick SQL & Favicon buttons
+      document.getElementById('btn-quick-sql').addEventListener('click', () => switchView('neondb'));
+      document.getElementById('btn-favicon-inspector').addEventListener('click', () => {
+        document.getElementById('favicon-modal').classList.remove('hidden');
+      });
+      document.getElementById('btn-close-favicon-modal').addEventListener('click', () => {
+        document.getElementById('favicon-modal').classList.add('hidden');
+      });
+
+      // Hero Slide Switcher
+      document.querySelectorAll('.hero-slide-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const idx = Number(btn.getAttribute('data-slide')) || 0;
+          const slide = HERO_SLIDES[idx] || HERO_SLIDES[0];
+          document.getElementById('hero-backdrop-img').src = slide.poster_url;
+          document.getElementById('hero-title-en').textContent = slide.title_en;
+          document.getElementById('hero-title-jp').textContent = `${slide.title_jp} • ${slide.episodes_total} Episodes Available`;
+          document.getElementById('hero-synopsis').textContent = slide.synopsis;
+          document.getElementById('hero-badge-res').textContent = slide.resolution;
+          document.getElementById('hero-badge-rating').textContent = `★ ${slide.rating.toFixed(2)} NeonScore`;
+          document.getElementById('hero-badge-studio').textContent = slide.studio;
+          document.getElementById('btn-hero-watch').setAttribute('data-media-id', String(slide.id));
+          document.getElementById('btn-hero-watchlist').setAttribute('data-media-id', String(slide.id));
+        });
+      });
+
+      // Hero Primary Buttons
+      document.getElementById('btn-hero-watch').addEventListener('click', (e) => {
+        openTheater(e.currentTarget.getAttribute('data-media-id'));
+      });
+      document.getElementById('btn-hero-watchlist').addEventListener('click', (e) => {
+        const id = Number(e.currentTarget.getAttribute('data-media-id'));
+        if (!state.watchlist.some(w => w.media_id === id)) {
+          state.watchlist.unshift({ media_id: id, watch_status: 'Watching', current_episode: 1 });
+          savePersistedState();
+          renderWatchlist();
+          renderCatalog();
+          showToast('Synced to NeonDB user_watchlist!', 'cyber');
+        } else {
+          showToast('Already in your NeonDB Watchlist', 'sakura');
+        }
+      });
+      document.getElementById('btn-hero-explore-vault').addEventListener('click', () => switchView('vault'));
+
+      // Global & Mobile Search
+      const handleSearch = (val) => {
+        state.searchQuery = val;
+        if (state.activeView !== 'discover') switchView('discover');
+        renderCatalog();
+      };
+      document.getElementById('global-search-input').addEventListener('input', e => handleSearch(e.target.value));
+      document.getElementById('mobile-search-input').addEventListener('input', e => handleSearch(e.target.value));
+
+      // Sort Select
+      document.getElementById('sort-select').addEventListener('change', e => {
+        state.sortBy = e.target.value;
+        renderCatalog();
+      });
+
+      // Category Filter Pills
+      document.querySelectorAll('.cat-pill-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          state.selectedCategory = btn.getAttribute('data-cat');
+          document.querySelectorAll('.cat-pill-btn').forEach(b => {
+            const active = b.getAttribute('data-cat') === state.selectedCategory;
+            b.className = active
+              ? 'cat-pill-btn shrink-0 px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-sakura-500 text-white shadow transition'
+              : 'cat-pill-btn shrink-0 px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-obsidian-800 text-slate-300 hover:text-white border border-white/10 transition';
+          });
+          renderCatalog();
+        });
+      });
+
+      // 18+ Toggle & Age Verification Modal
+      document.getElementById('btn-toggle-mature').addEventListener('click', () => {
+        if (state.matureUnlocked) {
+          state.matureUnlocked = false;
+          savePersistedState();
+          syncMatureUI();
+          renderCatalog();
+          renderVaultGrid();
+          showToast('18+ Safe Mode Enabled (Artwork Blurred)', 'cyber');
+        } else {
+          document.getElementById('age-gate-modal').classList.remove('hidden');
+        }
+      });
+
+      document.getElementById('btn-vault-unlock-trigger').addEventListener('click', () => {
+        document.getElementById('age-gate-modal').classList.remove('hidden');
+      });
+
+      document.getElementById('btn-vault-privacy-shield').addEventListener('click', () => {
+        state.matureUnlocked = false;
+        savePersistedState();
+        syncMatureUI();
+        renderCatalog();
+        renderVaultGrid();
+        switchView('discover');
+        showToast('SFW Privacy Shield Activated', 'emerald');
+      });
+
+      document.getElementById('btn-cancel-age-gate').addEventListener('click', () => {
+        document.getElementById('age-gate-modal').classList.add('hidden');
+      });
+
+      document.getElementById('btn-confirm-age-gate').addEventListener('click', () => {
+        const checked = document.getElementById('chk-age-confirm').checked;
+        if (!checked) {
+          showToast('Please check the 18+ confirmation box first.', 'sakura');
+          return;
+        }
+        state.matureUnlocked = true;
+        savePersistedState();
+        syncMatureUI();
+        renderCatalog();
+        renderVaultGrid();
+        document.getElementById('age-gate-modal').classList.add('hidden');
+        showToast('18+ Velvet Vault Unlocked (4K Uncut Enabled)', 'sakura');
+      });
+
+      // Vault Sub-Tags
+      document.querySelectorAll('.vault-tag-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          state.selectedVaultTag = btn.getAttribute('data-vtag');
+          document.querySelectorAll('.vault-tag-btn').forEach(b => {
+            const active = b.getAttribute('data-vtag') === state.selectedVaultTag;
+            b.className = active
+              ? 'vault-tag-btn px-3 py-1 rounded-lg text-xs font-semibold bg-rose-600 text-white'
+              : 'vault-tag-btn px-3 py-1 rounded-lg text-xs font-semibold bg-obsidian-800 text-slate-300 hover:text-white border border-white/10';
+          });
+          renderVaultGrid();
+        });
+      });
+
+      // Delegated clicks for Catalog, Vault, Schedule, and Watchlist actions
+      document.body.addEventListener('click', (e) => {
+        const target = e.target.closest('[data-action]');
+        if (!target) return;
+        const action = target.getAttribute('data-action');
+        const id = Number(target.getAttribute('data-id'));
+
+        if (action === 'unlock-card') {
+          document.getElementById('age-gate-modal').classList.remove('hidden');
+        } else if (action === 'stream') {
+          openTheater(id);
+        } else if (action === 'watchlist') {
+          const idx = state.watchlist.findIndex(w => w.media_id === id);
+          if (idx >= 0) {
+            state.watchlist.splice(idx, 1);
+            showToast('Removed from NeonDB Watchlist', 'sakura');
+          } else {
+            state.watchlist.unshift({ media_id: id, watch_status: 'Watching', current_episode: 1 });
+            showToast('INSERT INTO user_watchlist committed!', 'cyber');
+          }
+          savePersistedState();
+          renderCatalog();
+          renderWatchlist();
+        } else if (action === 'remove-watchlist') {
+          state.watchlist = state.watchlist.filter(w => w.media_id !== id);
+          savePersistedState();
+          renderCatalog();
+          renderWatchlist();
+        }
+      });
+
+      // Real HD Gallery Switcher
+      document.querySelectorAll('.gallery-thumb-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const idx = Number(btn.getAttribute('data-gallery-idx')) || 0;
+          const plate = GALLERY_PLATES[idx] || GALLERY_PLATES[0];
+          document.getElementById('gallery-main-stage-img').src = plate.img;
+          document.getElementById('gallery-stage-tag').textContent = plate.tag;
+          document.getElementById('gallery-stage-title').textContent = plate.title;
+          document.getElementById('gallery-stage-desc').textContent = plate.desc;
+        });
+      });
+      document.getElementById('btn-gallery-stream-doc').addEventListener('click', () => openTheater(8));
+
+      // Schedule Day Tabs
+      document.querySelectorAll('.day-tab-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const day = btn.getAttribute('data-day');
+          document.querySelectorAll('.day-tab-btn').forEach(b => {
+            const active = b.getAttribute('data-day') === day;
+            b.className = active
+              ? 'day-tab-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-sakura-500 text-white'
+              : 'day-tab-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-obsidian-800 text-slate-300 border border-white/10';
+          });
+          renderSchedule(day);
+        });
+      });
+
+      // Companion Affinity Matcher
+      document.getElementById('btn-run-affinity').addEventListener('click', () => {
+        const world = document.getElementById('affinity-world').value;
+        const profiles = {
+          cyber: { name: 'Renji Kurosawa (Cyber Blade Zero)', tag: 'Neo-Tokyo 2099', score: '99.1% SYNC', img: 'assets/images/hero_cyberpunk.jpg', quote: '"Stay behind my plasma edge—Neo-Tokyo\'s grid won\'t touch you."' },
+          fantasy: { name: 'Seraphina Sovereign (Valkyrie)', tag: 'Crimson Eclipse', score: '97.8% SYNC', img: 'assets/images/poster_valkyrie.jpg', quote: '"My golden wings and obsidian blade are sworn to your banner."' },
+          velvet: { name: 'Evelyn Nocturne (Penthouse 88)', tag: '18+ Velvet Vault', score: '98.9% SYNC', img: 'assets/images/poster_velvet.jpg', quote: '"Every encrypted desire in Neo-Shibuya eventually passes through my crystal."' },
+          shrine: { name: 'Mitsuki Hoshino (Spirit Shrine)', tag: 'Celestial Romance', score: '98.4% SYNC', img: 'assets/images/poster_shrine.jpg', quote: '"Across a thousand cherry-blossom twilights, my lantern waited for you."' }
+        };
+        const match = profiles[world] || profiles.velvet;
+        document.getElementById('affinity-img').src = match.img;
+        document.getElementById('affinity-name').textContent = match.name;
+        document.getElementById('affinity-tag').textContent = match.tag;
+        document.getElementById('affinity-score').textContent = match.score;
+        document.getElementById('affinity-quote').textContent = match.quote;
+        showToast(`Matched with ${match.name}!`, 'sakura');
+      });
+
+      // Theater Player Controls
+      document.getElementById('btn-close-theater').addEventListener('click', () => {
+        document.getElementById('theater-modal').classList.add('hidden');
+      });
+      const togglePlay = () => {
+        state.player.playing = !state.player.playing;
+        document.getElementById('btn-player-playpause').textContent = state.player.playing ? 'Pause' : 'Play';
+        document.getElementById('icon-player-play').classList.toggle('hidden', state.player.playing);
+        document.getElementById('icon-player-pause').classList.toggle('hidden', !state.player.playing);
+      };
+      document.getElementById('btn-player-center-toggle').addEventListener('click', togglePlay);
+      document.getElementById('btn-player-playpause').addEventListener('click', togglePlay);
+      document.getElementById('btn-player-audio').addEventListener('click', (e) => {
+        const isSub = e.currentTarget.textContent.includes('SUB');
+        e.currentTarget.textContent = isSub ? 'Audio: EN DUB' : 'Audio: SUB';
+        document.getElementById('player-track-pill').textContent = isSub ? 'EN 5.1 (Uncut Dub)' : 'JP 5.1 (Sub)';
+        showToast(`Switched audio track to ${isSub ? 'English Dub' : 'Japanese 5.1 Sub'}`, 'cyber');
+      });
+      document.getElementById('btn-player-quality').addEventListener('click', (e) => {
+        const is4k = e.currentTarget.textContent.includes('4K');
+        e.currentTarget.textContent = is4k ? '1080p BD' : '4K 60fps';
+        document.getElementById('player-res-pill').textContent = is4k ? '1080p60 Lossless' : '2160p60 HDR';
+      });
+      document.getElementById('player-scrubber').addEventListener('input', (e) => {
+        const pct = Number(e.target.value);
+        const mins = Math.floor((pct / 100) * 24);
+        const secs = Math.floor(((pct / 100) * 1440) % 60);
+        document.getElementById('player-time-label').textContent = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')} / 24:00`;
+      });
+      document.getElementById('player-episodes-grid').addEventListener('click', (e) => {
+        const epBtn = e.target.closest('.ep-select-btn');
+        if (!epBtn) return;
+        const epNum = Number(epBtn.getAttribute('data-ep'));
+        state.player.currentEpisode = epNum;
+        document.getElementById('player-ep-indicator').textContent = `Episode ${epNum} Playing`;
+        document.querySelectorAll('.ep-select-btn').forEach(b => {
+          const active = Number(b.getAttribute('data-ep')) === epNum;
+          b.className = `ep-select-btn shrink-0 px-3 py-1.5 rounded-xl text-xs font-mono font-bold ${active ? 'bg-sakura-500 text-white' : 'bg-obsidian-800 text-slate-300 hover:text-white'}`;
+        });
+        // Update watchlist episode progress
+        const wl = state.watchlist.find(w => w.media_id === state.player.activeMediaId);
+        if (wl) {
+          wl.current_episode = epNum;
+          savePersistedState();
+          renderWatchlist();
+        }
+        showToast(`Streaming Episode ${epNum} (Progress synced to NeonDB)`, 'cyber');
+      });
+
+      // Watchlist Modal
+      document.getElementById('btn-open-watchlist').addEventListener('click', () => {
+        document.getElementById('watchlist-modal').classList.remove('hidden');
+      });
+      document.getElementById('btn-close-watchlist').addEventListener('click', () => {
+        document.getElementById('watchlist-modal').classList.add('hidden');
+      });
+      document.getElementById('btn-clear-watchlist').addEventListener('click', () => {
+        state.watchlist = [];
+        savePersistedState();
+        renderWatchlist();
+        renderCatalog();
+        showToast('Cleared NeonDB Watchlist', 'sakura');
+      });
+
+      // Review Modal & Submission
+      document.getElementById('btn-open-review-modal').addEventListener('click', () => {
+        document.getElementById('review-modal').classList.remove('hidden');
+      });
+      document.getElementById('btn-close-review-modal').addEventListener('click', () => {
+        document.getElementById('review-modal').classList.add('hidden');
+      });
+      document.getElementById('form-new-review').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const title_en = document.getElementById('rev-series').value;
+        const author_handle = document.getElementById('rev-handle').value.trim() || 'NeonOtaku';
+        const score = Number(document.getElementById('rev-score').value) || 9.5;
+        const comment_body = document.getElementById('rev-comment').value.trim();
+        if (!comment_body) return;
+        state.reviews.unshift({ author_handle, score, title_en, comment_body, created_at: 'Just now' });
+        savePersistedState();
+        renderReviews();
+        document.getElementById('rev-comment').value = '';
+        document.getElementById('review-modal').classList.add('hidden');
+        showToast('Review inserted into NeonDB community_reviews!', 'emerald');
+      });
+
+      // NeonDB SQL Studio Controls
+      document.querySelectorAll('.sql-preset-btn').forEach(btn => {
+        btn.addEventListener('click', () => executeSqlPreset(btn.getAttribute('data-sql-preset')));
+      });
+      document.getElementById('btn-execute-sql').addEventListener('click', () => {
+        const q = document.getElementById('sql-editor-textarea').value.toLowerCase();
+        if (q.includes('is_mature')) executeSqlPreset('vault');
+        else if (q.includes('user_watchlist')) executeSqlPreset('watchlist');
+        else executeSqlPreset('catalog');
+        showToast('Query executed against NeonDB Serverless replica', 'cyber');
+      });
+      document.getElementById('btn-ping-neondb').addEventListener('click', () => {
+        const ms = (8 + Math.random() * 5).toFixed(1);
+        document.getElementById('telemetry-latency').textContent = `${ms} ms`;
+        showToast(`NeonDB Pooler responded in ${ms} ms`, 'emerald');
+      });
+    });
+  </script>
+</body>
+</html>
